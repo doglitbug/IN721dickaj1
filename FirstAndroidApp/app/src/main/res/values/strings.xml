@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">FirstAndroidApp</string>
+    <string name="author_name">Arron Dick</string>
 </resources>

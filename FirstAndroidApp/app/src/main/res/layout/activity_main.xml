@@ -15,25 +15,33 @@
         android:text="This is the first Android App!"
         android:textSize="24sp"
         android:textIsSelectable="true"
-        android:id="@+id/textView2" />
+        android:id="@+id/textViewHeading" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="New Text"
-        android:id="@+id/textView"
+        android:text="@string/author_name"
+        android:id="@+id/textViewAuthor"
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true" />
 
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/imageView"
-        android:minHeight="100dp"
-        android:minWidth="300dp"
-        android:background="#d88a8a"
-        android:layout_below="@+id/textView"
+        android:id="@+id/imageViewRandom"
+        android:src="@drawable/random_owl"
+        android:minWidth="100dp"
+        android:layout_below="@+id/textViewAuthor"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="65dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="New Text"
+        android:id="@+id/textViewDogBreed"
+        android:layout_below="@+id/textViewHeading"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="58dp" />
 
 </RelativeLayout>
