@@ -24,14 +24,22 @@ public class MainActivity extends AppCompatActivity {
         btnClickTest.setOnLongClickListener(new btnClickTestHandler());
 
     }
-
         public class btnClickTestHandler implements View.OnClickListener, View.OnLongClickListener {
 
+            /**
+             * Deal with a single click
+             * @param v The View that was clicked
+             */
             @Override
             public void onClick(View v) {
                 Toast.makeText(MainActivity.this,"Normal Click", Toast.LENGTH_SHORT).show();
             }
 
+            /**
+             * Deal with a long click(press and hold)
+             * @param v The View that was clicked
+             * @return true because methos has comsumed this event(does not need to be passed back to system)
+             */
             @Override
             public boolean onLongClick(View v) {
                 Toast.makeText(MainActivity.this,"Long Click", Toast.LENGTH_SHORT).show();
