@@ -35,7 +35,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public boolean onLongClick(View v) {
                 Toast.makeText(MainActivity.this,"Long Click", Toast.LENGTH_SHORT).show();
-                return false;
+                return true;
             }
         }
 
