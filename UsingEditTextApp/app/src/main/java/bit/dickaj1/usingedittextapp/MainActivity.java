@@ -8,6 +8,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
+    private final int USERNAME_LENGTH = 8;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,14 +35,37 @@ public class MainActivity extends AppCompatActivity {
          */
         @Override
         public boolean onKey(View v, int keyCode, KeyEvent event) {
+            //Has this key event been full processed
+            boolean processed = false;
             //Check for a key press
             if (event.getAction() == KeyEvent.ACTION_DOWN) {
-                //Check it is the keycode we want to take action on
-                if (keyCode == KeyEvent.KEYCODE_AT) {
-                    Toast.makeText(MainActivity.this, "Don't type @", Toast.LENGTH_SHORT).show();
+                //Check if user has pressed enter, signifying they have finished
+                if (keyCode == KeyEvent.KEYCODE_ENTER) {
+                    //Get username from the control to check
+                    //Grab handle of the control
+                    EditText editTextControl = (EditText) findViewById(v.getId());
+                    //Get the text of the username
+                    String userName = editTextControl.getText().toString();
+                    //Pass to checking method
+                    checkUserName(userName);
+                    //Tell system that this keypress is processed
+                    processed = true;
                 }
             }
-            return false;
+            return processed;
+        }
+    }
+
+    /**
+     * Checks length of username and prints a message if it is valid or not
+     *
+     * @param userName String to check
+     */
+    private void checkUserName(String userName) {
+        if (userName.length() == USERNAME_LENGTH) {
+            Toast.makeText(MainActivity.this, "Thank you " + userName, Toast.LENGTH_LONG).show();
+        } else {
+            Toast.makeText(MainActivity.this, "Usernames must be " + USERNAME_LENGTH + " characters, " + userName, Toast.LENGTH_LONG).show();
         }
     }
 }
