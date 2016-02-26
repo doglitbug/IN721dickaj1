@@ -1,9 +1,25 @@
 <resources>
     <string name="app_name">MusicSchoolApp</string>
-    <string name="first_question">Which instrument do you want to play?</string>
+    <string name="header">Enroll for Music Lessons!</string>
+    <string name="first_question">Choose your instrument</string>
     <string name="instrument1">Accordion</string>
     <string name="instrument2">Bassoon</string>
     <string name="instrument3">Cello</string>
-    <string name="confirm">Confirm</string>
-    <string name="confirmation_message">You have enrolled for %1$s lessons</string>
+    <string name="question_when">When do you want to start?</string>
+    <string-array name="months">
+        <item>January</item>
+        <item>February</item>
+        <item>March</item>
+        <item>April</item>
+        <item>May</item>
+        <item>June</item>
+        <item>July</item>
+        <item>August</item>
+        <item>September</item>
+        <item>October</item>
+        <item>November</item>
+        <item>December</item>
+    </string-array>
+    <string name="confirm">ENROLL ME!</string>
+    <string name="confirmation_message">You have enrolled for %1$s lessons in %2$s</string>
 </resources>
