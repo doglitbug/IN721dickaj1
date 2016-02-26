@@ -13,6 +13,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
         android:text="@string/first_question"
         android:id="@+id/textViewQuestion" />
 
@@ -21,7 +22,7 @@
         android:layout_gravity="center_horizontal"
         android:id="@+id/radioGroupInstruments"
         android:layout_height="wrap_content"
-        android:padding="75px"
+        android:padding="50dp"
         >
 
         <RadioButton
@@ -44,13 +45,22 @@
 
     </RadioGroup>
 
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:id="@+id/buttonConfirm"
+        android:text="@string/confirm"
+        android:enabled="false"
+        />
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text=""
         android:id="@+id/textViewConfirm"
         android:layout_gravity="center_horizontal"
-        android:paddingTop="25px"
+        android:paddingTop="25dp"
         />
 
 </LinearLayout>
