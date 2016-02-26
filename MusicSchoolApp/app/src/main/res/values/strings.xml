@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">MusicSchoolApp</string>
+    <string name="first_question">Which instrument do you want to play?</string>
+    <string name="instrument1">Accordion</string>
+    <string name="instrument2">Bassoon</string>
+    <string name="instrument3">Cello</string>
+    <string name="confirmation_message">You have enrolled for %1$s lessons</string>
+</resources>
