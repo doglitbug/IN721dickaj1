@@ -1,0 +1,7 @@
+<resources>
+    <dimen name="header">32sp</dimen>
+    <dimen name="divider">2sp</dimen>
+    <dimen name="instructions">20sp</dimen>
+    <dimen name="divider_padding">10sp</dimen>
+    <dimen name="radiogroup_margin">20sp</dimen>
+</resources>

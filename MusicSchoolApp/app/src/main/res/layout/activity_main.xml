@@ -12,25 +12,29 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:text="@string/header"
-        android:id="@+id/textViewHeader" />
+        android:id="@+id/textViewHeader"
+        android:textIsSelectable="false"
+        android:textSize="@dimen/header" />
 
     <View
-        android:layout_height="2dp"
+        android:layout_height="@dimen/divider"
         android:layout_width="match_parent"
         android:background="@color/colorDivider"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="10dp"/>
+        android:layout_marginTop="@dimen/divider_padding"
+        android:layout_marginBottom="@dimen/divider_padding"/>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/first_question"/>
+        android:text="@string/first_question"
+        android:textSize="@dimen/instructions"
+        android:textColor="@color/instructions" />
 
     <RadioGroup
         android:layout_width="wrap_content"
         android:id="@+id/radioGroupInstruments"
         android:layout_height="wrap_content"
-        android:layout_margin="20dp"
+        android:layout_margin="@dimen/radiogroup_margin"
         >
 
         <RadioButton
@@ -56,7 +60,9 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/question_when"/>
+        android:text="@string/question_when"
+        android:textSize="@dimen/instructions"
+        android:textColor="@color/instructions" />
 
 
     <Spinner
@@ -66,11 +72,11 @@
         android:id="@+id/spinnerWhen" />
 
     <View
-        android:layout_height="2dp"
+        android:layout_height="@dimen/divider"
         android:layout_width="match_parent"
         android:background="@color/colorDivider"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="10dp"/>
+        android:layout_marginTop="@dimen/divider_padding"
+        android:layout_marginBottom="@dimen/divider_padding"/>
 
     <Button
         android:layout_width="wrap_content"
@@ -84,7 +90,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/textViewConfirm"
-        android:paddingTop="25dp"
-        />
-
+        android:textColor="@color/instructions"
+        android:textSize="@dimen/instructions" />
 </LinearLayout>
