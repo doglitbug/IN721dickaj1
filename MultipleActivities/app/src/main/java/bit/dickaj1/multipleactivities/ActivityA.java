@@ -1,5 +1,6 @@
 package bit.dickaj1.multipleactivities;
 
+import android.content.Intent;
 import android.content.res.Resources;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -39,7 +40,10 @@ public class ActivityA extends AppCompatActivity {
       */
      @Override
      public void onClick(View v) {
-
+        //Create Intent
+         Intent changeActivityIntent = new Intent(ActivityA.this,ActivityB.class);
+         //Transfer control to the next activity
+         startActivity(changeActivityIntent);
      }
  }
 
