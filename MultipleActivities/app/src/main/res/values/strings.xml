@@ -1,5 +1,7 @@
 <resources>
     <string name="app_name">MultipleActivities</string>
-    <string name="title_activity_activity_b">ActivityB</string>
-    <string name="title_activity_activity_c">ActivityC</string>
+    <string name="instructionsA">Activity A</string>
+    <string name="instructionsB">Activity B</string>
+    <string name="instructionsC">Activity C</string>
+    <string name="button_text">Change activity</string>
 </resources>

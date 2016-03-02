@@ -8,6 +8,7 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+
         <activity android:name=".ActivityA">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -18,11 +19,9 @@
 
         <activity
             android:name=".ActivityB"
-            android:label="@string/title_activity_activity_b"
             android:theme="@style/AppTheme" />
         <activity
             android:name=".ActivityC"
-            android:label="@string/title_activity_activity_c"
             android:theme="@style/AppTheme"></activity>
     </application>
 
