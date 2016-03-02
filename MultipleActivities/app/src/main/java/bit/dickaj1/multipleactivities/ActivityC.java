@@ -2,6 +2,7 @@ package bit.dickaj1.multipleactivities;
 
 import android.content.Intent;
 import android.content.res.Resources;
+import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -40,10 +41,12 @@ public class ActivityC extends AppCompatActivity {
          */
         @Override
         public void onClick(View v) {
+            //Create URI
+            Uri goSeeAWebsite = Uri.parse("https://habitica.com/");
             //Create Intent
-            Intent changeActivityIntent = new Intent(ActivityC.this,ActivityA.class);
+            Intent websiteIntent = new Intent(Intent.ACTION_VIEW, goSeeAWebsite);
             //Transfer control to the next activity
-            startActivity(changeActivityIntent);
+            startActivity(websiteIntent);
         }
     }
 
