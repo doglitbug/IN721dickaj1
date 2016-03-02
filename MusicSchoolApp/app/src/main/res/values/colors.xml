@@ -4,6 +4,7 @@
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
 
+    <color name="welcome_background">#000000</color>
 
     <color name="colorDivider">#FF0000</color>
     <color name="header">#000000</color>
