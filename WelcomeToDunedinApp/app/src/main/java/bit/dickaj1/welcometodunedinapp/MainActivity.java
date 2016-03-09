@@ -1,5 +1,6 @@
 package bit.dickaj1.welcometodunedinapp;
 
+import android.content.Intent;
 import android.content.res.Resources;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -56,6 +57,19 @@ public class MainActivity extends AppCompatActivity {
             String clickedItemString=(String)parent.getItemAtPosition(position).toString();
             //Output as toast
             Toast.makeText(MainActivity.this, clickedItemString, Toast.LENGTH_LONG).show();
+
+            //Find the next activity based off the clicked item
+            Class<?> nextActivity=null;
+            try {
+                nextActivity = Class.forName(clickedItemString);
+            } catch(ClassNotFoundException e){
+                //TODO Handle this gracefully
+                e.printStackTrace();
+            }
+
+            //Create new intent and transfer control
+            Intent newIntent=new Intent(MainActivity.this,nextActivity);
+            startActivity(newIntent);
         }
     }
 }
