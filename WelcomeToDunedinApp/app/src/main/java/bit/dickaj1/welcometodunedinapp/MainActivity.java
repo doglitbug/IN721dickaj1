@@ -8,7 +8,6 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -55,12 +54,10 @@ public class MainActivity extends AppCompatActivity {
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
             //Find out which category was clicked
             String clickedItemString=(String)parent.getItemAtPosition(position).toString();
-            //Output as toast
-            Toast.makeText(MainActivity.this, clickedItemString, Toast.LENGTH_LONG).show();
 
             //Find the next activity based off the clicked item
             //Build correct name of activity
-            clickedItemString="activity_"+clickedItemString.toLowerCase();
+            clickedItemString+="Activity";
             Class<?> nextActivity=null;
             try {
                 nextActivity = Class.forName(clickedItemString);
