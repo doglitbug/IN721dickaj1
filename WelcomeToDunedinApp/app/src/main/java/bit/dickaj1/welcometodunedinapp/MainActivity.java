@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.content.res.Resources;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -54,21 +55,22 @@ public class MainActivity extends AppCompatActivity {
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
             //Find out which category was clicked
             String clickedItemString=(String)parent.getItemAtPosition(position).toString();
-
+            //
+            Intent nextIntent;
             //Find the next activity based off the clicked item
-            //Build correct name of activity
-            clickedItemString+="Activity";
-            Class<?> nextActivity=null;
-            try {
-                nextActivity = Class.forName(clickedItemString);
-            } catch(ClassNotFoundException e){
-                //TODO Handle this gracefully
-                e.printStackTrace();
-            }
+        switch(clickedItemString){
+            case "Activities":
+                nextIntent=new Intent(MainActivity.this,ActivitiesActivity.class);
+                break;
+            default:
+                nextIntent=null;
+                break;
+        }
 
-            //Create new intent and transfer control
-            Intent newIntent=new Intent(MainActivity.this,nextActivity);
-            startActivity(newIntent);
+            if (nextIntent!=null) {
+                //Create new intent and transfer control
+                startActivity(nextIntent);
+            }
         }
     }
 }
