@@ -59,6 +59,8 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(MainActivity.this, clickedItemString, Toast.LENGTH_LONG).show();
 
             //Find the next activity based off the clicked item
+            //Build correct name of activity
+            clickedItemString="activity_"+clickedItemString.toLowerCase();
             Class<?> nextActivity=null;
             try {
                 nextActivity = Class.forName(clickedItemString);
