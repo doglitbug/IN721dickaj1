@@ -62,6 +62,15 @@ public class MainActivity extends AppCompatActivity {
             case "Activities":
                 nextIntent=new Intent(MainActivity.this,ActivitiesActivity.class);
                 break;
+            case "Shopping":
+                nextIntent=new Intent(MainActivity.this,ShoppingActivity.class);
+                break;
+            case "Dining":
+                nextIntent=new Intent(MainActivity.this,DiningActivity.class);
+                break;
+            case "Services":
+                nextIntent=new Intent(MainActivity.this,ServicesActivity.class);
+                break;
             default:
                 nextIntent=null;
                 break;
