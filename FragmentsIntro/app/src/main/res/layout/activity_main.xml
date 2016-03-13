@@ -9,8 +9,28 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="bit.dickaj1.fragmentsintro.MainActivity">
 
-    <TextView
+    <LinearLayout
+        android:id="@+id/fragment_container"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hello World!" />
+        android:orientation="vertical"></LinearLayout>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Image View"
+        android:id="@+id/btnShowImageView"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="List View"
+        android:id="@+id/btnShowListView"
+        android:layout_alignTop="@+id/btnShowImageView"
+        android:layout_toRightOf="@+id/btnShowImageView"
+        android:layout_toEndOf="@+id/btnShowImageView" />
+
 </RelativeLayout>
