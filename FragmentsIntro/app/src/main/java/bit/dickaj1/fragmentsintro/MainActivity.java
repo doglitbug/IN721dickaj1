@@ -47,7 +47,16 @@ public class MainActivity extends AppCompatActivity {
     private class btnShowListViewHandler implements View.OnClickListener{
         @Override
         public void onClick(View v){
-            //TODO Show list view fragment
+            //Show Image view fragment
+            //Create fragment and fragment manager
+            Fragment dynamicFragment = new ShowListViewFragment();
+            FragmentManager fm=getFragmentManager();
+            //Start transaction
+            FragmentTransaction ft=fm.beginTransaction();
+            //Replace placeholder
+            ft.replace(R.id.fragment_container,dynamicFragment);
+            //Confirm
+            ft.commit();
         }
     }
 }
