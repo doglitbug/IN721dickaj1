@@ -1,5 +1,8 @@
 package bit.dickaj1.fragmentsintro;
 
+import android.app.Fragment;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -28,7 +31,16 @@ public class MainActivity extends AppCompatActivity {
     private class btnShowImageViewHandler implements View.OnClickListener{
         @Override
         public void onClick(View v){
-            //TODO Show Image view fragment
+            //Show Image view fragment
+            //Create fragment and fragment manager
+            Fragment dynamicFragment = new ShowImageFragment();
+            FragmentManager fm=getFragmentManager();
+            //Start transaction
+            FragmentTransaction ft=fm.beginTransaction();
+            //Replace placeholder
+            ft.replace(R.id.fragment_container,dynamicFragment);
+            //Confirm
+            ft.commit();
         }
     }
 
