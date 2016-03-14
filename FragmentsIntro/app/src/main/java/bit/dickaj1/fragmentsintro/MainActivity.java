@@ -13,7 +13,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_main_landscape);
 
         //Set up button handlers
         setUpButtonHandlers();
@@ -38,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
             //Start transaction
             FragmentTransaction ft=fm.beginTransaction();
             //Replace placeholder
-            ft.replace(R.id.fragment_container,dynamicFragment);
+            ft.replace(R.id.fragment_container1,dynamicFragment);
             //Confirm
             ft.commit();
         }
@@ -54,7 +54,7 @@ public class MainActivity extends AppCompatActivity {
             //Start transaction
             FragmentTransaction ft=fm.beginTransaction();
             //Replace placeholder
-            ft.replace(R.id.fragment_container,dynamicFragment);
+            ft.replace(R.id.fragment_container2,dynamicFragment);
             //Confirm
             ft.commit();
         }
