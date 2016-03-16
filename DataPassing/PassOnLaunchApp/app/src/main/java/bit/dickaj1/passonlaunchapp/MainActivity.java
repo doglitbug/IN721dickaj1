@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -15,6 +16,16 @@ public class MainActivity extends AppCompatActivity {
 
         //Go do set up
         setupButton();
+
+        //Check if data has been passed back
+        String username=checkForData();
+        if (username!=null){
+            //Set on form
+            //Get reference to the textcontrol
+            TextView textViewUserName=(TextView)findViewById(R.id.textViewUsername);
+            //Set text
+            textViewUserName.setText(username);
+        }
     }
 
     /**
@@ -39,5 +50,23 @@ public class MainActivity extends AppCompatActivity {
             //Transfer control to the new activity
             startActivity(changeActivityIntent);
         }
+    }
+
+    /**
+     * Checks to see if an intent was set up and there is a username
+     * @return username or "" if not launched from settings
+     */
+    public String checkForData(){
+        String username="";
+        //Check there was an intent
+        Intent launchIntent=getIntent();
+        //If launched from an intent
+        if (launchIntent!=null){
+            //Grab username
+            username=launchIntent.getStringExtra("username");
+        }
+        //Return the username
+
+        return username;
     }
 }
