@@ -5,6 +5,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Toast;
 
 public class SettingsActivity extends AppCompatActivity {
 
@@ -33,10 +35,36 @@ public class SettingsActivity extends AppCompatActivity {
 
         @Override
         public void onClick(View v) {
-            //Create intent
-            Intent changeActivityIntent = new Intent(SettingsActivity.this, MainActivity.class);
-            //Transfer control to the new activity
-            startActivity(changeActivityIntent);
+            //Grab username from the form
+            //Grab reference to the textView
+            EditText editTextUsername=(EditText)findViewById(R.id.editText);
+            //Get the string
+            String username=editTextUsername.getText().toString();
+            //Check username is valid
+            if (checkUsername(username)) {
+                //Create intent
+                Intent changeActivityIntent = new Intent(SettingsActivity.this, MainActivity.class);
+                //Transfer control to the new activity
+                startActivity(changeActivityIntent);
+            }
         }
+    }
+
+    /**
+     * Checks if the username is valid
+     * @param username String to check
+     * @return True if username is valid
+     */
+    public boolean checkUsername(String username){
+        //Check for username being okay
+        Boolean usernamePassed=true;
+        //Check username
+        if (username.length()<5) {
+            Toast.makeText(SettingsActivity.this, "Username is too short. 5+ required", Toast.LENGTH_SHORT).show();
+            usernamePassed=false;
+        }
+        //TODO additional checks ie no spaces or puncuation
+
+        return usernamePassed;
     }
 }
