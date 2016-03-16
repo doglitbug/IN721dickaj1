@@ -42,8 +42,12 @@ public class SettingsActivity extends AppCompatActivity {
             String username=editTextUsername.getText().toString();
             //Check username is valid
             if (checkUsername(username)) {
+                //Username is valid so bundle up data and transfer to main screen
+
                 //Create intent
                 Intent changeActivityIntent = new Intent(SettingsActivity.this, MainActivity.class);
+                //Bundle up data
+                changeActivityIntent.putExtra("username", username);
                 //Transfer control to the new activity
                 startActivity(changeActivityIntent);
             }
