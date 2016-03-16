@@ -9,4 +9,28 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="bit.dickaj1.passonlaunchapp.SettingsActivity">
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/settings_request"
+        android:id="@+id/textViewRequest"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:layout_above="@+id/editText"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/editText"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/setting_button_return"
+        android:id="@+id/buttonReturn"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true" />
 </RelativeLayout>
