@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">RequestingDataApp</string>
+    <string name="main_header">Main Screen</string>
+    <string name="main_body">The color of this text must change. The color of this text must change. The color of this text must change. The color of this text must change. The color of this text must change. </string>
+    <string name="button_change">Change text color</string>
+
+    <string name="settings_header">Settings screen</string>
+    <string name="settings_body">In a hole in the ground there lived a hobbit. Not a nasty, dirty, wet hole, filled with the ends of worms and an oozy smell, nor yet a dry, bare, sandy hole with nothing in it to sit down on or to eat: it was a hobbit-hole, and that means comfort.</string>
 </resources>
