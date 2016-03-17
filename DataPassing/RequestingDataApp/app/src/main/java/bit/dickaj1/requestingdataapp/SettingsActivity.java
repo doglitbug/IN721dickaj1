@@ -1,5 +1,6 @@
 package bit.dickaj1.requestingdataapp;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
@@ -16,12 +17,22 @@ public class SettingsActivity extends AppCompatActivity {
         returnControl();
     }
 
+    /**
+     * Gran data required and return to activity that launched us
+     */
     public void returnControl(){
         //Create an intent
         Intent returnIntent=new Intent();
-        //Get data to return
+        //Get the data to return
         int dataToReturn=getTextViewColor();
-        //Stuff it into 
+        //Stuff it into return data
+        returnIntent.putExtra("TextColor",dataToReturn);
+
+        //Set the return code
+        setResult(Activity.RESULT_OK,returnIntent);
+
+        //Pop ourselves off the Activity Stack, control and intent go to the Activity who launched us
+        finish();
     }
 
     /**
