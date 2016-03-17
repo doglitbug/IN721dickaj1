@@ -1,10 +1,12 @@
 package bit.dickaj1.requestingdataapp;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -15,6 +17,20 @@ public class MainActivity extends AppCompatActivity {
 
         //Set up button and handler
         setupButton();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data){
+        //Check correct request and result
+        if ((requestCode==42) && (resultCode== Activity.RESULT_OK)){
+            //Fetch the data required
+            int result=data.getIntExtra("TextColor",0);
+            //Set the textColor with it
+            //Get reference to textView to change
+            TextView textViewToChange=(TextView)findViewById(R.id.textViewBodyMain);
+            //Change it
+            textViewToChange.setTextColor(result);
+        }
     }
 
     /**
@@ -37,7 +53,7 @@ public class MainActivity extends AppCompatActivity {
             //Create intent
             Intent changeActivityIntent = new Intent(MainActivity.this,SettingsActivity.class);
             //Transfer control to the new activity
-            startActivityForResult(changeActivityIntent,42);
+            startActivityForResult(changeActivityIntent, 42);
         }
     }
 }
