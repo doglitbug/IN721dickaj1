@@ -1,5 +1,6 @@
 package bit.dickaj1.musicschoolapp;
 
+import android.app.FragmentManager;
 import android.content.res.Resources;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
@@ -67,12 +68,18 @@ public class MainActivity extends AppCompatActivity {
          */
         @Override
         public void onClick(View v) {
-            //TODO Pop off to dialog boc
+            //Pop off to dialog box
+            //Create new dialog
+            ConfirmationDialog confirmSelection = new ConfirmationDialog();
+            //Get fragment manager
+            FragmentManager fm=getFragmentManager();
+            //Show the dialog box
+            confirmSelection.show(fm,"Confirm");
         }
     }
 
     /**
-     * Sets a prebuilt message in textViewConfirm using the given instrument
+     * Sets a prebuilt message in textViewConfirm depending on confirmation
      */
     public void giveMeMyData(Boolean confirmed) {
         String outputMessage;

@@ -16,10 +16,12 @@ public class ConfirmationDialog extends DialogFragment {
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState){
+        //Create a new builder
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 
         builder.setIcon(R.drawable.ic_music);
-        builder.setTitle("Confirm?");
+        builder.setTitle("Really enrol?");
+        //TODO body message?
         builder.setPositiveButton("Yes", new YesButtonHandler());
         builder.setNegativeButton("No",new NoButtonHandler());
 
