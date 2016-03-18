@@ -22,6 +22,7 @@
     </string-array>
     <string name="confirm">ENROLL ME!</string>
     <string name="confirmation_message">You have enrolled for %1$s lessons in %2$s</string>
+    <string name="denial_message">Oh well...</string>
     <string name="title_activity_welcome_screen">WelcomeScreen</string>
     <string name="welcome_button">Click to continue</string>
 </resources>

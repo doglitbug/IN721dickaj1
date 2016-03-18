@@ -5,6 +5,7 @@ import android.app.Dialog;
 import android.app.DialogFragment;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.util.Log;
 
 /**
  * Created by Arron on 18/03/2016.
@@ -31,8 +32,11 @@ public class ConfirmationDialog extends DialogFragment {
 
         @Override
         public void onClick(DialogInterface dialog, int which) {
+
+            Log.i("From onClick in dialog", String.valueOf(which));
+
             MainActivity myActivity=(MainActivity) getActivity();
-            myActivity.GiveMeMyData(true);
+            myActivity.giveMeMyData(true);
         }
     }
 
@@ -40,9 +44,11 @@ public class ConfirmationDialog extends DialogFragment {
 
         @Override
         public void onClick(DialogInterface dialog, int which) {
+
+            Log.i("From onClick in dialog", String.valueOf(which));
+
             MainActivity myActivity=(MainActivity) getActivity();
-            myActivity.GiveMeMyData(false);
+            myActivity.giveMeMyData(false);
         }
     }
-
 }

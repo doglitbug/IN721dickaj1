@@ -4,6 +4,7 @@ import android.content.res.Resources;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -66,12 +67,20 @@ public class MainActivity extends AppCompatActivity {
          */
         @Override
         public void onClick(View v) {
-            //TODO Check month?
-            //We dont need to check if an instrument has been selected as this control will be disabled
-            //until that happens
+            //TODO Pop off to dialog boc
+        }
+    }
 
-            //Find the text of the selected item
-            //
+    /**
+     * Sets a prebuilt message in textViewConfirm using the given instrument
+     */
+    public void giveMeMyData(Boolean confirmed) {
+        String outputMessage;
+        Resources res = getResources();
+        //Get textview
+        TextView textViewConfirm = (TextView) findViewById(R.id.textViewConfirm);
+
+        if (confirmed) {
             //Get radio group
             RadioGroup radioGroupInstruments = (RadioGroup) findViewById(R.id.radioGroupInstruments);
             //Get selected index of said group
@@ -80,32 +89,17 @@ public class MainActivity extends AppCompatActivity {
             RadioButton radioButtonSelected = (RadioButton) findViewById(radioButtonIndex);
             //Get string of instrument
             String selectedInstrument = radioButtonSelected.getText().toString();
-
-            //Find out when the user wishes to enroll
-            //
             //Get the spinner
             Spinner spinnerWhen = (Spinner) findViewById(R.id.spinnerWhen);
             //Get text from selected item. In a concatentated line because im unsure of the object type returned
-            String selectedMonth = spinnerWhen.getSelectedItem().toString();
+            String month = spinnerWhen.getSelectedItem().toString();
 
-            //Pass off to method to change confirmation message
-            setMessage(selectedInstrument, selectedMonth);
+            //Get message from R and build
+            outputMessage = String.format(res.getString(R.string.confirmation_message), selectedInstrument, month);
+        } else {
+            outputMessage = res.getString(R.string.denial_message);
         }
-    }
-
-    /**
-     * Sets a prebuilt message in textViewConfirm using the given instrument
-     *
-     * @param instrumentName name of instrument
-     * @param month          month to enroll
-     */
-    private void setMessage(String instrumentName, String month) {
-        //Get textview
-        TextView textViewConfirm = (TextView) findViewById(R.id.textViewConfirm);
-        //Get message from R and build
-        Resources res = getResources();
-        String message = String.format(res.getString(R.string.confirmation_message), instrumentName, month);
         //Set message
-        textViewConfirm.setText(message);
+        textViewConfirm.setText(outputMessage);
     }
 }
