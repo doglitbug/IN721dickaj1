@@ -12,5 +12,8 @@ public class QuestionsActivity extends AppCompatActivity {
 
         //TODO check intent to see if this is the start of question time or in the middle of such
         //TODO retrieve question manager etc
+        //TODO Load an image and show answersFragment
+
+
     }
 }

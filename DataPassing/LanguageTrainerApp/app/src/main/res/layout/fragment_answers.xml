@@ -13,11 +13,12 @@
         android:text="@string/answer_instructions"
         android:id="@+id/textViewInstructions" />
 
+<!-- Answer buttons -->
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/answer_1"
-        android:id="@+id/buttonDer"
+        android:id="@+id/btnAnswer1"
         android:layout_below="@+id/textViewInstructions"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
@@ -26,7 +27,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/answer_2"
-        android:id="@+id/buttonDie"
+        android:id="@+id/btnAnswer2"
         android:layout_below="@+id/textViewInstructions"
         android:layout_centerHorizontal="true" />
 
@@ -34,7 +35,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/answer_3"
-        android:id="@+id/buttonDas"
+        android:id="@+id/btnAnswer3"
         android:layout_below="@+id/textViewInstructions"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true" />
