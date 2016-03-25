@@ -9,8 +9,19 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="bit.dickaj1.languagetrainerapp.WelcomeActivity">
 
-    <TextView
+
+    <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hello World!" />
+        android:id="@+id/imageViewLogo"
+        android:src="@drawable/WelcomeLogo" />
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Click to start"
+        android:id="@+id/btnStart"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"/>
 </RelativeLayout>
