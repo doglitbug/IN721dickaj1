@@ -14,16 +14,16 @@ public class AnswersFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstance) {
         View fragmentView = inflater.inflate(R.layout.fragment_answers, container, false);
 
-        // Do any required setup for the fragment view here...
-        //TODO set up however we pass the selected answer back to questionsactivity
-
         //Set up button handlers
-        //Pass in the fragmentView so that we have access to findViewbyId
         setUpButtonHandlers(fragmentView);
 
         return fragmentView;
     }
 
+    /**
+     * Set up the button handlers for the three answer buttons
+     * @param fragmentView Used so we have access to findViewbyId
+     */
     private void setUpButtonHandlers(View fragmentView) {
         //Grab the handle of the buttons
         Button btnAnswer1 = (Button) fragmentView.findViewById(R.id.btnAnswer1);
@@ -33,9 +33,11 @@ public class AnswersFragment extends Fragment {
         btnAnswer1.setOnClickListener(new btnAnswerHandler());
         btnAnswer2.setOnClickListener(new btnAnswerHandler());
         btnAnswer3.setOnClickListener(new btnAnswerHandler());
-
     }
 
+    /**
+     * Answer button onClick handler
+     */
     private class btnAnswerHandler implements View.OnClickListener {
         @Override
         public void onClick(View v) {
