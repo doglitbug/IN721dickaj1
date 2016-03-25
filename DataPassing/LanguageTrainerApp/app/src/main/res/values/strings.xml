@@ -1,10 +1,20 @@
 <resources>
     <string name="app_name">LanguageTrainerApp</string>
+    <!--Welcome activity strings -->
     <string name="start_text">Click to start quiz</string>
+    <!--Questions activity strings -->
 
+    <!--Answer fragment strings -->
+    <string name="answer_instructions">Please select an answer</string>
     <string name="answer_1">der</string>
     <string name="answer_2">die</string>
     <string name="answer_3">das</string>
+
+    <!--Results fragment strings -->
+    <string name="result">The answer %1$s is %1$s</string>
+    <string name="result_correct">correct</string>
+    <string name="result_incorrect">incorrect</string>
+    <string name="result_continue">Click to contine</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

@@ -15,4 +15,19 @@
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="Start asking questions in here"
         android:id="@+id/textView" />
+
+    <!--TODO replace with an image fragment? probably only useful for a transition-->
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/imageView"
+        android:layout_below="@+id/textView"
+        android:layout_centerHorizontal="true" />
+
+    <!--Fragment for Answers/Result fragment-->
+    <LinearLayout
+        android:id="@+id/fragment_answer_result"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"></LinearLayout>
 </RelativeLayout>
