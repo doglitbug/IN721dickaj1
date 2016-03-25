@@ -5,8 +5,9 @@ import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 
-public class QuestionsActivity extends AppCompatActivity {
+public class QuestionsActivity extends AppCompatActivity{
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -16,26 +17,68 @@ public class QuestionsActivity extends AppCompatActivity {
         //TODO check intent to see if this is the start of question time or in the middle of such
         //TODO retrieve question manager
 
-
-
-        //TODO Load an image
-
-        
+        //TODO Move to a select new question method
         showAnswersFragment();
 
     }
 
-    private void showAnswersFragment(){
+    /**
+     * Show the selectable answer fragment
+     */
+    private void showAnswersFragment() {
+        //TODO read these from the question manager
+        String correctAnswer="";
         //Create fragment and fragment manager
         Fragment dynamicFragment = new AnswersFragment();
-        FragmentManager fm=getFragmentManager();
+        FragmentManager fm = getFragmentManager();
         //Start transaction
-        FragmentTransaction ft=fm.beginTransaction();
+        FragmentTransaction ft = fm.beginTransaction();
         //Replace placeholder
-        ft.replace(R.id.fragment_answer_result,dynamicFragment);
+        ft.replace(R.id.fragment_answer_result, dynamicFragment);
         //Confirm
         ft.commit();
     }
 
-    //TODO get the answer selected here? like in the pizza dialog
+    /**
+     * Show the result fragment
+     */
+    private void showResultFragment(){
+        //TODO Check anser etc and pass the required data to this fragment before showing
+
+        //Create fragment and fragment manager
+        Fragment dynamicFragment = new ResultFragment();
+        FragmentManager fm = getFragmentManager();
+        //Start transaction
+        FragmentTransaction ft = fm.beginTransaction();
+        //Replace placeholder
+        ft.replace(R.id.fragment_answer_result, dynamicFragment);
+        //Confirm
+        ft.commit();
+    }
+
+
+    /**
+     * Receive an answer from the answer fragment
+     * @param answer
+     */
+    public void receiveAnswer(int answer) {
+        //TODO finish method
+
+        //TODO Check answer against question and show result fragment
+
+        Log.i("ABC:QuestionActivity", "Received answer number: " + answer);
+
+        showResultFragment();
+    }
+
+    /**
+     * Deal with user selecting continue on result fragment
+     */
+    public void continueSelected(){
+        //TODO deal with using selected continue on result fragment
+        //ie next question or go to game over screen
+        Log.i("ABC:QuestionActivity","User selected continue");
+
+        showAnswersFragment();
+    }
 }

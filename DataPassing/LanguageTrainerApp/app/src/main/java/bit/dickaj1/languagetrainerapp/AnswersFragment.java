@@ -1,7 +1,10 @@
 package bit.dickaj1.languagetrainerapp;
 
+import android.app.Activity;
 import android.app.Fragment;
+import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +13,7 @@ import android.widget.Toast;
 
 
 public class AnswersFragment extends Fragment {
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstance) {
         View fragmentView = inflater.inflate(R.layout.fragment_answers, container, false);
@@ -59,9 +63,12 @@ public class AnswersFragment extends Fragment {
                     //TODO throw an error?
                     break;
             }
-            //TODO Send the answer back to the questionactivity or deal with it here if we have
-            //the question manager?
-            Toast.makeText(getActivity(),"Answer "+answer+" selected",Toast.LENGTH_LONG).show();
+            //Send the selected answer back to the question activity
+            //TODO check answer is not -1?
+            //TODO Upcouple
+            //Yes this is coupled, yes I looked at the docs and no I couldn't figure out frag->Activity communication
+            QuestionsActivity parent=(QuestionsActivity)getActivity();
+            parent.receiveAnswer(answer);
         }
-    }
+  }
 }
