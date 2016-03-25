@@ -6,6 +6,7 @@ import android.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.ImageView;
 
 public class QuestionsActivity extends AppCompatActivity{
 
@@ -19,7 +20,8 @@ public class QuestionsActivity extends AppCompatActivity{
 
         //TODO Move to a select new question method
         showAnswersFragment();
-
+        ImageView temp=(ImageView)findViewById(R.id.imageViewQuestion);
+        temp.setImageResource(R.drawable.das_auto);
     }
 
     /**
@@ -43,7 +45,7 @@ public class QuestionsActivity extends AppCompatActivity{
      * Show the result fragment
      */
     private void showResultFragment(){
-        //TODO Check anser etc and pass the required data to this fragment before showing
+        //TODO Check anwser etc and pass the required data to this fragment before showing
 
         //Create fragment and fragment manager
         Fragment dynamicFragment = new ResultFragment();

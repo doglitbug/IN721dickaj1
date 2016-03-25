@@ -13,7 +13,7 @@
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/imageView"
+        android:id="@+id/imageViewQuestion"
         android:layout_centerHorizontal="true" />
 
     <!--Fragment for Answers/Result fragment-->
@@ -21,6 +21,6 @@
         android:id="@+id/fragment_answer_result"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/imageView"
+        android:layout_below="@id/imageViewQuestion"
         android:orientation="vertical"></LinearLayout>
 </RelativeLayout>
