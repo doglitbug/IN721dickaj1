@@ -9,27 +9,33 @@ import android.util.Log;
 import android.widget.ImageView;
 
 public class QuestionsActivity extends AppCompatActivity{
-
+private QuestionManager questionManager;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_questions);
 
-        //TODO check intent to see if this is the start of question time or in the middle of such
-        //TODO retrieve question manager
+        //Create questionManager
+        questionManager=new QuestionManager(getApplicationContext());
 
-        //TODO Move to a select new question method
         showAnswersFragment();
-        ImageView temp=(ImageView)findViewById(R.id.imageViewQuestion);
-        temp.setImageResource(R.drawable.das_auto);
     }
 
     /**
      * Show the selectable answer fragment
      */
     private void showAnswersFragment() {
-        //TODO read these from the question manager
-        String correctAnswer="";
+        //Get data from the questionManager
+        Question currentQuestion=questionManager.getCurrentQuestion();
+        int imageId=currentQuestion.imageId;
+
+        //Set image
+        ImageView image=(ImageView)findViewById(R.id.imageViewQuestion);
+        image.setImageResource(imageId);
+
+        //TODO
+
+
         //Create fragment and fragment manager
         Fragment dynamicFragment = new AnswersFragment();
         FragmentManager fm = getFragmentManager();
@@ -45,7 +51,7 @@ public class QuestionsActivity extends AppCompatActivity{
      * Show the result fragment
      */
     private void showResultFragment(){
-        //TODO Check anwser etc and pass the required data to this fragment before showing
+        //TODO Check answer etc and pass the required data to this fragment before showing
 
         //Create fragment and fragment manager
         Fragment dynamicFragment = new ResultFragment();
@@ -67,9 +73,12 @@ public class QuestionsActivity extends AppCompatActivity{
         //TODO finish method
 
         //TODO Check answer against question and show result fragment
+        switch(questionManager.getCurrentQuestion().article){
 
+        }
         Log.i("ABC:QuestionActivity", "Received answer number: " + answer);
-
+        //TODO check for end of questions
+        questionManager.nextQuestion();
         showResultFragment();
     }
 
