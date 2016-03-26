@@ -15,9 +15,13 @@ public class QuestionManager {
     //Current question number
     int currentQuestion;
 
+    /**
+     * Constructor, creates questions and resets for a new game
+     * @param parentContext context from parent activity so we can access Resources
+     */
     public QuestionManager(Context parentContext){
         questionList=new ArrayList<>();
-        //Load questions
+        //Load questions, not putting these in string.xml
         questionList.add(new Question("das","auto",parentContext));
         questionList.add(new Question("das","haus",parentContext));
         questionList.add(new Question("das","schaf",parentContext));
@@ -43,7 +47,8 @@ public class QuestionManager {
 
     /**
      * Shuffles the questions
-     * Yes this is the lazy(?) way to do it...hehehe
+     * Yes this is the lazy(?) way to do it...hehehe(K.I.S.S.)
+     * TODO shuffle using loop of 100 and choose random place
      */
     private void shuffle(){
         Collections.shuffle(questionList);

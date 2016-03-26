@@ -69,7 +69,7 @@ private QuestionManager questionManager;
      * Receive an answer from the answer fragment
      * @param answer
      */
-    public void receiveAnswer(int answer) {
+    public void receiveAnswer(String answer) {
         //TODO finish method
 
         //TODO Check answer against question and show result fragment

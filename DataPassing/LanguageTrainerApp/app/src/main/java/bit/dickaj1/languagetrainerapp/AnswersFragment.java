@@ -42,25 +42,25 @@ public class AnswersFragment extends Fragment {
         @Override
         public void onClick(View v) {
             //Hold the selected answer
-            int answer=-1;
+            String answer;
             //An answer button has been selected
             //Figure out which one
             switch(v.getId()) {
                 case R.id.btnAnswer1:
-                    answer = 1;
+                    answer = "der";
                     break;
                 case R.id.btnAnswer2:
-                    answer = 2;
+                    answer = "die";
                     break;
                 case R.id.btnAnswer3:
-                    answer = 3;
+                    answer = "das";
                     break;
                 default:
-                    //TODO throw an error?
+                    answer="";
                     break;
             }
             //Send the selected answer back to the question activity
-            //TODO check answer is not -1?
+            //TODO check answer is not empty
             //TODO Upcouple
             //Yes this is coupled, yes I looked at the docs and no I couldn't figure out frag->Activity communication
             QuestionsActivity parent=(QuestionsActivity)getActivity();
