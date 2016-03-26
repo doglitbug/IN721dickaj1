@@ -14,6 +14,8 @@ public class QuestionManager {
     List<Question> questionList;
     //Current question number
     int currentQuestion;
+    //Number of correct answers so far
+    int correctSoFar;
 
     /**
      * Constructor, creates questions and resets for a new game
@@ -38,10 +40,10 @@ public class QuestionManager {
     }
 
     /**
-     * Sets current question number to 0 and shuffles questions
+     * Sets current question number/correct to 0 and shuffles questions
      */
     public void reset(){
-        currentQuestion=0;
+        currentQuestion=correctSoFar=0;
         shuffle();
     }
 
@@ -71,6 +73,16 @@ public class QuestionManager {
     public Question getCurrentQuestion(){
         //TODO Check out of bounds error?
         return questionList.get(currentQuestion);
+    }
+
+    /**
+     * Checks if the supplied answer is correct and increments count of correct answers
+     * @param answer Answer to check
+     */
+    public void checkAnswer(String answer){
+        if (answer==getCurrentQuestion().article){
+            correctSoFar++;
+        }
     }
 }
 

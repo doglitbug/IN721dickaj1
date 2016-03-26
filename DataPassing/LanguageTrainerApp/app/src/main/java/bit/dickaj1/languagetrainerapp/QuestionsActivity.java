@@ -22,19 +22,15 @@ private QuestionManager questionManager;
     }
 
     /**
-     * Show the selectable answer fragment
+     * Get the current question, show image and set up answer fragment
      */
     private void showAnswersFragment() {
         //Get data from the questionManager
         Question currentQuestion=questionManager.getCurrentQuestion();
         int imageId=currentQuestion.imageId;
-
         //Set image
         ImageView image=(ImageView)findViewById(R.id.imageViewQuestion);
         image.setImageResource(imageId);
-
-        //TODO
-
 
         //Create fragment and fragment manager
         Fragment dynamicFragment = new AnswersFragment();
@@ -48,13 +44,19 @@ private QuestionManager questionManager;
     }
 
     /**
-     * Show the result fragment
+     * Show the result fragment with given data
      */
-    private void showResultFragment(){
-        //TODO Check answer etc and pass the required data to this fragment before showing
+    private void showResultFragment(String answer, String expected){
+
+        //Bundle up the data to pass to the fragment
+        Bundle bundle=new Bundle();
+        bundle.putString("answer",answer);
+        bundle.putString("expected",expected);
 
         //Create fragment and fragment manager
         Fragment dynamicFragment = new ResultFragment();
+        //Bundle in the data
+        dynamicFragment.setArguments(bundle);
         FragmentManager fm = getFragmentManager();
         //Start transaction
         FragmentTransaction ft = fm.beginTransaction();
@@ -70,26 +72,22 @@ private QuestionManager questionManager;
      * @param answer
      */
     public void receiveAnswer(String answer) {
-        //TODO finish method
-
-        //TODO Check answer against question and show result fragment
-        switch(questionManager.getCurrentQuestion().article){
-
-        }
-        Log.i("ABC:QuestionActivity", "Received answer number: " + answer);
-        //TODO check for end of questions
-        questionManager.nextQuestion();
-        showResultFragment();
+        //Get the expected answer
+        String expected=questionManager.getCurrentQuestion().article;
+        //Check if it was correct with the manager
+        questionManager.checkAnswer(answer);
+        //Pass on to the results fragment
+        showResultFragment(answer,expected);
     }
 
     /**
      * Deal with user selecting continue on result fragment
      */
     public void continueSelected(){
-        //TODO deal with using selected continue on result fragment
-        //ie next question or go to game over screen
-        Log.i("ABC:QuestionActivity","User selected continue");
-
+        if (!questionManager.nextQuestion()){
+            Log.i("ABC:QuestionActivity","TODO Out of questions");
+            //TODO move to end of game screen with correct so far
+        }
         showAnswersFragment();
     }
 }
