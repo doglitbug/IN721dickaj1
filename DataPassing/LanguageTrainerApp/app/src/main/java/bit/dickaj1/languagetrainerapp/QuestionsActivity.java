@@ -3,6 +3,7 @@ package bit.dickaj1.languagetrainerapp;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -47,7 +48,6 @@ private QuestionManager questionManager;
      * Show the result fragment with given data
      */
     private void showResultFragment(String answer, String expected){
-
         //Bundle up the data to pass to the fragment
         Bundle bundle=new Bundle();
         bundle.putString("answer",answer);
@@ -77,17 +77,37 @@ private QuestionManager questionManager;
         //Check if it was correct with the manager
         questionManager.checkAnswer(answer);
         //Pass on to the results fragment
-        showResultFragment(answer,expected);
+        showResultFragment(answer, expected);
     }
 
     /**
      * Deal with user selecting continue on result fragment
      */
     public void continueSelected(){
+        //If out of question go to finish screen or next question
         if (!questionManager.nextQuestion()){
-            Log.i("ABC:QuestionActivity","TODO Out of questions");
-            //TODO move to end of game screen with correct so far
+            //Get number of correct questions
+            int correctAnswers=questionManager.getCorrectSoFar();
+            int totalQuestions=questionManager.getTotalQuestions();
+            showFinishActivity(correctAnswers,totalQuestions);
+        } else {
+            showAnswersFragment();
         }
-        showAnswersFragment();
+    }
+
+    /**
+     * Start up the finish activity and pass in the question data
+     * @param correctAnswers number of correct answers
+     * @param totalQuestions number of questions total
+     */
+    private void showFinishActivity(int correctAnswers,int totalQuestions){
+        //Create Intent
+        Intent finishIntent = new Intent(QuestionsActivity.this,FinishActivity.class);
+        //Bundle in the data to show
+        finishIntent.putExtra("correct",correctAnswers);
+        finishIntent.putExtra("total",totalQuestions);
+
+        //Show the finish activity
+        startActivity(finishIntent);
     }
 }

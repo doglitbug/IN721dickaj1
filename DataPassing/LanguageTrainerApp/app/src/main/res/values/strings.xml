@@ -11,8 +11,12 @@
     <string name="answer_3">das</string>
 
     <!--Results fragment strings -->
-    <string name="result">Your answer %1$s is %1$s</string>
+    <string name="result">Your answer %1$s is %2$s</string>
     <string name="result_correct">correct!</string>
     <string name="result_incorrect">incorrect sorry</string>
     <string name="result_continue">Click to continue</string>
+
+    <!--Finish fragment strings -->
+    <string name="finish_text">You got %1$d correct out of a possible %2$d</string>
+    <string name="finish_continue">Click to try again</string>
 </resources>

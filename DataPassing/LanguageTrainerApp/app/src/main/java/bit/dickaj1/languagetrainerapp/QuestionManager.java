@@ -11,11 +11,11 @@ import java.util.List;
  */
 public class QuestionManager {
     //List of questions
-    List<Question> questionList;
+    private List<Question> questionList;
     //Current question number
-    int currentQuestion;
+    private int currentQuestion;
     //Number of correct answers so far
-    int correctSoFar;
+    private int correctSoFar;
 
     /**
      * Constructor, creates questions and resets for a new game
@@ -42,7 +42,7 @@ public class QuestionManager {
     /**
      * Sets current question number/correct to 0 and shuffles questions
      */
-    public void reset(){
+    private void reset(){
         currentQuestion=correctSoFar=0;
         shuffle();
     }
@@ -72,6 +72,7 @@ public class QuestionManager {
      */
     public Question getCurrentQuestion(){
         //TODO Check out of bounds error?
+        //nextQuestion shouldn't get called by parent activity if it is...
         return questionList.get(currentQuestion);
     }
 
@@ -83,6 +84,22 @@ public class QuestionManager {
         if (answer==getCurrentQuestion().article){
             correctSoFar++;
         }
+    }
+
+    /**
+     * How many questions have ben answered correctly
+     * @return correctly answer questions
+     */
+    public int getCorrectSoFar(){
+        return correctSoFar;
+    }
+
+    /**
+     * How many questions is there is total
+     * @return Total number of questions
+     */
+    public int getTotalQuestions(){
+        return questionList.size();
     }
 }
 

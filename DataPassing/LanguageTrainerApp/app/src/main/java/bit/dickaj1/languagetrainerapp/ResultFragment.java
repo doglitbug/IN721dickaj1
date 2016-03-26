@@ -39,7 +39,6 @@ public class ResultFragment extends Fragment {
         //Get the textView
         TextView textViewResult =(TextView)fragmentView.findViewById(R.id.textViewResult);
 
-
         //Was the answer correct?
         if (answer==expected){
             correctness=res.getString(R.string.result_correct);
@@ -54,7 +53,7 @@ public class ResultFragment extends Fragment {
     }
     /**
      * Set up the button handlers for the three answer buttons
-     * @param fragmentView Used so we have access to findViewbyId
+     * @param fragmentView Used so we have access to findViewById
      */
     private void setUpButtonHandlers(View fragmentView) {
         //Grab the handle of the buttons
