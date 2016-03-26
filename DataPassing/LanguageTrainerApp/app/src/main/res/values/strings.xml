@@ -11,8 +11,8 @@
     <string name="answer_3">das</string>
 
     <!--Results fragment strings -->
-    <string name="result">The answer %1$s is %1$s</string>
-    <string name="result_correct">correct</string>
-    <string name="result_incorrect">incorrect</string>
+    <string name="result">Your answer %1$s is %1$s</string>
+    <string name="result_correct">correct!</string>
+    <string name="result_incorrect">incorrect sorry</string>
     <string name="result_continue">Click to continue</string>
 </resources>
