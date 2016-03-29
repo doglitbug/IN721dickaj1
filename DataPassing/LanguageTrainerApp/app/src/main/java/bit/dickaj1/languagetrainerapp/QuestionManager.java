@@ -5,6 +5,7 @@ import android.content.Context;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Random;
 
 /**
  * Created by Arron on 26/03/2016.
@@ -49,11 +50,20 @@ public class QuestionManager {
 
     /**
      * Shuffles the questions
-     * Yes this is the lazy(?) way to do it...hehehe(K.I.S.S.)
-     * TODO shuffle using loop of 100 and choose random place
      */
     private void shuffle(){
-        Collections.shuffle(questionList);
+        //Collections.shuffle(questionList);
+        Random rnd=new Random();
+
+        for (int i=0;i<100;i++){
+            //Choose positions to swap randomly
+            int position1=rnd.nextInt(questionList.size());;
+            int position2=rnd.nextInt(questionList.size());
+            //Swap the elements
+            Question temp=questionList.get(position1);
+            questionList.set(position1,questionList.get(position2));
+            questionList.set(position2,temp);
+        }
     }
 
     /**
