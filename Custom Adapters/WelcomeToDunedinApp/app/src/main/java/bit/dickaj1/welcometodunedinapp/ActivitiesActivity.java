@@ -1,5 +1,6 @@
 package bit.dickaj1.welcometodunedinapp;
 
+import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
 import android.support.v7.app.AppCompatActivity;
@@ -21,11 +22,11 @@ public class ActivitiesActivity extends AppCompatActivity {
     }
 
     private void createAdapter(){
-        ArrayAdapter<ActivitiesListItem> activitesAdapter=new ArrayAdapter<ActivitiesListItem>(this,android.R.layout.simple_list_item_1,activitiesArray);
+        ArrayAdapter<ActivitiesListItem> activitiesAdapter=new ArrayAdapter<ActivitiesListItem>(this,R.layout.custom_listview_item,activitiesArray);
 
         //Find listview and bind
         ListView lvActivities=(ListView)findViewById(R.id.lvActivities);
-        lvActivities.setAdapter(activitesAdapter);
+        lvActivities.setAdapter(activitiesAdapter);
     }
 
     private void initialiseDataArray(){
@@ -57,5 +58,11 @@ public class ActivitiesActivity extends AppCompatActivity {
         activitiesArray[8]=new ActivitiesListItem("Speights Brewery",speights);
         activitiesArray[9]=new ActivitiesListItem("St Kilda Beach",st_kilda);
         activitiesArray[10]=new ActivitiesListItem("Taeri Gorge Railway",taeri_gorge);
+    }
+
+    public class ActivitiesArrayAdapter extends ArrayAdapter<ActivitiesListItem>{
+        public ActivitiesArrayAdapter(Context context, int resource, ActivitiesListItem[] objects){
+            super(context,resource,objects);
+        }
     }
 }
