@@ -1,0 +1,17 @@
+<resources>
+    <string name="app_name">All About Dunedin</string>
+    <string-array name="categories">
+        <item>Activities</item>
+        <item>Shopping</item>
+        <item>Dining</item>
+        <item>Services</item>
+    </string-array>
+
+    <string name="page_main">All About Dunedin</string>
+    <string name="page_activities">Activities</string>
+    <string name="page_shopping">Shopping</string>
+    <string name="page_dining">Dining</string>
+    <string name="page_services">Services</string>
+
+
+</resources>
