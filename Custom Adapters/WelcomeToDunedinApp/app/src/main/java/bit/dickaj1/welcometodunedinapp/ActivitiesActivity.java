@@ -4,6 +4,8 @@ import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 
 public class ActivitiesActivity extends AppCompatActivity {
 
@@ -14,6 +16,16 @@ public class ActivitiesActivity extends AppCompatActivity {
         setContentView(R.layout.activity_activities);
 
         initialiseDataArray();
+
+        createAdapter();
+    }
+
+    private void createAdapter(){
+        ArrayAdapter<ActivitiesListItem> activitesAdapter=new ArrayAdapter<ActivitiesListItem>(this,android.R.layout.simple_list_item_1,activitiesArray);
+
+        //Find listview and bind
+        ListView lvActivities=(ListView)findViewById(R.id.lvActivities);
+        lvActivities.setAdapter(activitesAdapter);
     }
 
     private void initialiseDataArray(){

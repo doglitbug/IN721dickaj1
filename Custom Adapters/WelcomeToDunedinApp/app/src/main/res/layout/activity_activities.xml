@@ -16,14 +16,12 @@
         android:textSize="@dimen/header_size"
         android:id="@+id/textView" />
 
-    <ImageView
+    <ListView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/imageView"
-        android:src="@drawable/monarch"
+        android:layout_height="match_parent"
+        android:id="@+id/lvActivities"
         android:layout_below="@+id/textView"
-        android:layout_alignParentRight="false"
-        android:layout_alignParentEnd="true" />
+        android:layout_centerHorizontal="true" />
 
 
 </RelativeLayout>
