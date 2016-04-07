@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">LanguagePreferenceApp</string>
+    <string name="default_welcome">No language Chosen Yet...</string>
+    <string name="instructions">Change your language:</string>
+    <string name="language1">French</string>
+    <string name="language2">German</string>
+    <string name="language3">Spanish</string>
+
+    <string name="greeting1">Bonjour le monde</string>
+    <string name="greeting2">Hallo Welt</string>
+    <string name="greeting3">Hola Mundo</string>
+
+    <string name="btnSet">Set language</string>
+</resources>
