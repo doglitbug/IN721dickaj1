@@ -1,7 +1,13 @@
 <resources>
     <string name="app_name">LanguagePreferenceApp</string>
     <string name="default_welcome">No language Chosen Yet...</string>
+
+    <!-- Instuctions -->
     <string name="instructions">Change your language:</string>
+    <String name="instructions1">Change your color</String>
+    <string name="btnSet">Set language</string>
+
+    <!-- Language settings -->
     <string name="language1">French</string>
     <string name="language2">German</string>
     <string name="language3">Spanish</string>
@@ -10,5 +16,9 @@
     <string name="greeting2">Hallo Welt</string>
     <string name="greeting3">Hola Mundo</string>
 
-    <string name="btnSet">Set language</string>
+    <!-- Color settings -->
+
+    <string name="color1">Red</string>
+    <string name="color2">Blue</string>
+    <string name="color3">Green</string>
 </resources>
