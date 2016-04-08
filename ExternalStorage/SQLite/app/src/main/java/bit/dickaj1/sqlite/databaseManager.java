@@ -72,8 +72,27 @@ public class databaseManager {
      * @return ArrayList of results
      */
     public ArrayList<String> searchCountry(String searchString){
-        //TODO Finish
-        return null;
+        //Hold results
+        ArrayList<String> results = new ArrayList<>();
+        //Create query
+        String query="SELECT cityName FROM tblCity WHERE countryName='"+searchString+"';";
+
+        //Exec query
+        Cursor recordSet=demoDb.rawQuery(query,null);
+
+        //Move to first result
+        recordSet.moveToFirst();
+
+        //Loop through all records returned
+        for (int i=0;i<recordSet.getCount();i++){
+            //Get city name, using first index as there should be only one column
+            String cityName=recordSet.getString(0);
+            //Add to results we want
+            results.add(cityName);
+            //Move to next record
+            recordSet.moveToNext();
+        }
+        return results;
     }
 
     /**
