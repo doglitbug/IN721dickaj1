@@ -18,6 +18,6 @@
 
     <!-- Color settings -->
     <string name="color1">Red</string>
-    <string name="color2">Blue</string>
-    <string name="color3">Green</string>
+    <string name="color2">Green</string>
+    <string name="color3">Blue</string>
 </resources>

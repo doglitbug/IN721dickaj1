@@ -13,20 +13,19 @@ import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
 
+    //Preferences and editor, set here so global!
     SharedPreferences prefs;
     SharedPreferences.Editor prefsEditor;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        //Set up radio group handler to enable set button
-        setUpRadioGroup();
-
         //Set up button handler
         setUpButton();
 
-        //Set up preferences access and load last
+        //Set up preferences access and load previous settings
         setUpPrefs();
     }
 
@@ -34,43 +33,49 @@ public class MainActivity extends AppCompatActivity {
      * Sets up shared preferences and preferences editor
      * Loads previous preferences if found
      */
-    private void setUpPrefs(){
-        prefs=getSharedPreferences("prefsDemo",MODE_PRIVATE);
-        prefsEditor=prefs.edit();
+    private void setUpPrefs() {
+        prefs = getSharedPreferences("prefsDemo", MODE_PRIVATE);
+        prefsEditor = prefs.edit();
 
         //Check previous preference
-        String language=prefs.getString("language",null);
-        String color=prefs.getString("color",null);
+        String language = prefs.getString("language", null);
+        String color = prefs.getString("color", null);
 
         //TODO Issue if only one preference is set, or should that never happen?
-        if (language!=null && color!=null){
-            setWelcomeMessage(language,color);
+        if (language != null && color != null) {
+            setWelcomeMessage(language, color);
         }
 
-    }
+        //Set radio buttons to the previous settings
+        //-----Language
+        //Get radioGroup
+        RadioGroup rgLanguage = (RadioGroup) findViewById(R.id.rgLanguage);
 
-    /**
-     * Sets up an on check changed listener for the radiogroup
-     * this is to enable the set button
-     */
-    private void setUpRadioGroup(){
-        //Get reference to radiogroup
-        RadioGroup rgLanguage=(RadioGroup)findViewById(R.id.rgLanguage);
-        //Set onclick handler
-        rgLanguage.setOnCheckedChangeListener(new rgLanguageHandler());
-    }
+        //Loop through all Radio buttons
+        for (int i = 0; i < rgLanguage.getChildCount(); i++) {
+            //Get current RadioButton
+            RadioButton rbButton = (RadioButton) rgLanguage.getChildAt(i);
+            //Get the buttons string
+            String currentRbText = rbButton.getText().toString();
+            if (currentRbText.equals(language)) {
+                rbButton.setChecked(true);
+            }
+        }
 
-    /**
-     * Handler for radio group language
-     */
-    public class rgLanguageHandler implements RadioGroup.OnCheckedChangeListener{
 
-        @Override
-        public void onCheckedChanged(RadioGroup group, int checkedId) {
-            //Get reference to button
-            Button btnSet=(Button)findViewById(R.id.btnSet);
-            //Set enabled
-            btnSet.setEnabled(true);
+        //-----Color
+        //Get radioGroup
+        RadioGroup rgColor = (RadioGroup) findViewById(R.id.rgColor);
+
+        //Loop through all Radio buttons
+        for (int i = 0; i < rgColor.getChildCount(); i++) {
+            //Get current RadioButton
+            RadioButton rbButton = (RadioButton) rgColor.getChildAt(i);
+            //Get the buttons string
+            String currentRbText = rbButton.getText().toString();
+            if (currentRbText.equals(color)) {
+                rbButton.setChecked(true);
+            }
         }
     }
 
@@ -92,21 +97,24 @@ public class MainActivity extends AppCompatActivity {
         public void onClick(View v) {
             //Get language
             String language=getSelectedLanguage();
+            //Get color
+            String color=getSelectedColor();
             //Set preference
             prefsEditor.putString("language",language);
+            prefsEditor.putString("color",color);
             prefsEditor.commit();
-            //Set message
-            setWelcomeMessage(language);
+            //Update message and color on screen to selected
+            setWelcomeMessage(language,color);
         }
     }
 
     /**
-     * Sets the welcome message
+     * Sets the welcome message and color
      * @param language Language to use
      * @param color Color to set
      */
     private void setWelcomeMessage(String language, String color){
-        //Get reference to textview
+        //Get reference to textView
         TextView tvWelcome=(TextView)findViewById(R.id.tvWelcome);
         //Get resources
         Resources res=getResources();
@@ -136,11 +144,11 @@ public class MainActivity extends AppCompatActivity {
             case "Red":
                 colorToSet=Color.rgb(255,0,0);
                 break;
-            case "Blue":
-                colorToSet=Color.rgb(0,0,255);
-                break;
             case "Green":
                 colorToSet=Color.rgb(0,255,0);
+                break;
+            case "Blue":
+                colorToSet=Color.rgb(0,0,255);
                 break;
             default:
                 break;
@@ -150,15 +158,29 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /**
-     * Look at the radiogroup and find selected language
+     * Look at the radioGroup and find selected language
      * @return String of selected language
      */
     private String getSelectedLanguage(){
-        //TODO check for unselected?
-        //Get radiogroup
+        //Get radioGroup
        RadioGroup rgLanguage=(RadioGroup)findViewById(R.id.rgLanguage);
         //Get selected index
         int rbIndex=rgLanguage.getCheckedRadioButtonId();
+        //Get the selected radio button
+        RadioButton rbButton=(RadioButton)findViewById(rbIndex);
+        //Get the string and return
+        return rbButton.getText().toString();
+    }
+
+    /**
+     * Look at the radioGroup and find the selected color
+     * @return String of the selected color
+     */
+    private String getSelectedColor(){
+        //Get radioGroup
+        RadioGroup rgColor=(RadioGroup)findViewById(R.id.rgColor);
+        //Get selected index
+        int rbIndex=rgColor.getCheckedRadioButtonId();
         //Get the selected radio button
         RadioButton rbButton=(RadioButton)findViewById(rbIndex);
         //Get the string and return
