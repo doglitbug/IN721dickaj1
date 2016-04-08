@@ -2,6 +2,7 @@ package bit.dickaj1.languagepreferenceapp;
 
 import android.content.SharedPreferences;
 import android.content.res.Resources;
+import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -39,9 +40,13 @@ public class MainActivity extends AppCompatActivity {
 
         //Check previous preference
         String language=prefs.getString("language",null);
-        if (language!=null){
-            setWelcomeMessage(language);
+        String color=prefs.getString("color",null);
+
+        //TODO Issue if only one preference is set, or should that never happen?
+        if (language!=null && color!=null){
+            setWelcomeMessage(language,color);
         }
+
     }
 
     /**
@@ -98,14 +103,15 @@ public class MainActivity extends AppCompatActivity {
     /**
      * Sets the welcome message
      * @param language Language to use
+     * @param color Color to set
      */
-    private void setWelcomeMessage(String language){
+    private void setWelcomeMessage(String language, String color){
         //Get reference to textview
         TextView tvWelcome=(TextView)findViewById(R.id.tvWelcome);
         //Get resources
         Resources res=getResources();
-        //
         String message="";
+        int colorToSet=0;
 
         //TODO refactor so that a switch isn't used
         //Would require usage of string array, and pref being stored as a number and rb being
@@ -125,6 +131,22 @@ public class MainActivity extends AppCompatActivity {
         }
         //Set message
         tvWelcome.setText(message);
+
+        switch(color){
+            case "Red":
+                colorToSet=Color.rgb(255,0,0);
+                break;
+            case "Blue":
+                colorToSet=Color.rgb(0,0,255);
+                break;
+            case "Green":
+                colorToSet=Color.rgb(0,255,0);
+                break;
+            default:
+                break;
+        }
+        //Set color on the text welcome
+        tvWelcome.setTextColor(colorToSet);
     }
 
     /**
