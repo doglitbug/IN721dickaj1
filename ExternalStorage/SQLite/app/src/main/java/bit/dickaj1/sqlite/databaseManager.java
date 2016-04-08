@@ -1,6 +1,7 @@
 package bit.dickaj1.sqlite;
 
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 import java.util.ArrayList;
@@ -21,6 +22,8 @@ public class databaseManager {
     /**
      * Creates and populates the database
      * Will drop it if it already exists
+     * Yes, this drops the table and repopulates every-time, this is sufficient for a demos
+     * purpose because we aren't modifying the data at any point
      */
     private void createAndPopulateDatabase(){
         //Hold query before execution
@@ -30,7 +33,7 @@ public class databaseManager {
         demoDb=localContext.openOrCreateDatabase("demoDb", localContext.MODE_PRIVATE, null);
 
         //Drop table
-        query="DROP TABLE tblCity";
+        query="DROP TABLE IF EXISTS tblCity;";
         demoDb.execSQL(query);
 
         //Create table
@@ -75,10 +78,27 @@ public class databaseManager {
 
     /**
      * Get a list of all countries in the database
-     * @return Arraylist of Countries
+     * @return ArrayList of Countries
      */
     public ArrayList<String> getAllCountries(){
-        //TODO finish
-        return null;
+        //Hold results
+        ArrayList<String> results = new ArrayList<>();
+        //Create query
+        String query="SELECT DISTINCT countryName FROM tblCity;";
+
+        //Exec query
+        Cursor recordSet=demoDb.rawQuery(query,null);
+
+        //Move to first result
+        recordSet.moveToFirst();
+
+        //Loop through all records returned
+        for (int i=0;i<recordSet.getCount();i++){
+            //Get country name, using first index as there should be only one column
+            String countryName=recordSet.getString(0);
+            //Add to results we want
+            results.add(countryName);
+        }
+        return results;
     }
 }
