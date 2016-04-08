@@ -12,7 +12,7 @@ Within this there is an array of 10 objects, which contain more data than worth 
 Previous data at the top of the file suggests that the size of this array is either page_size or <page-size if on the last page, meaning that it can not be relied on to always be page_size!
 
 Of note(for the following application) would probably be the key values called:
-*title
-*description
-*image
-*url
+* title
+* description
+* image
+* url
