@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">SQLite</string>
+
+    <string name="countries">Select a country:</string>
+    <string name="cities">Cities:</string>
+    <string name="btnSearch">Search</string>
 </resources>
