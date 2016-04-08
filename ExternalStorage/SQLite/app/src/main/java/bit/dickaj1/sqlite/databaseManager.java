@@ -98,6 +98,8 @@ public class databaseManager {
             String countryName=recordSet.getString(0);
             //Add to results we want
             results.add(countryName);
+            //Move to next record
+            recordSet.moveToNext();
         }
         return results;
     }
