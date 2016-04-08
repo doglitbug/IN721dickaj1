@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">ExternalTextFileApp</string>
+
+    <string name="btnFill">Fill list</string>
 </resources>
