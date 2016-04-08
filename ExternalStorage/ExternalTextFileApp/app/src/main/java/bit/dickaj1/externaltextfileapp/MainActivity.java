@@ -97,7 +97,8 @@ public class MainActivity extends AppCompatActivity {
 
             br.close();
         } catch (IOException e) {
-            //TODO Throw a fit?
+            //TODO Check if this is sufficient
+            e.printStackTrace();
         }
         return data;
     }
