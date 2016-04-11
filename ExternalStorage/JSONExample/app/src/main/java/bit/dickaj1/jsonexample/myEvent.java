@@ -16,4 +16,12 @@ public class myEvent {
     public String toString(){
         return name;
     }
+
+    /**
+     * Get the myEvents description
+     * @return Description string
+     */
+    public String getDescription(){
+        return description;
+    }
 }

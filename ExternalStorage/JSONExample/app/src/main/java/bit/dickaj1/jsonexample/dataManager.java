@@ -20,19 +20,21 @@ public class dataManager {
     public dataManager(Context context){
         localContext=context;
     }
+
     public ArrayList<myEvent> getEvents() {
         //Hold data to return
-        ArrayList<myEvent> data;
+        ArrayList<myEvent> data = new ArrayList<>();
 
         //Get the JSONObject
-        JSONObject readData=getJSONData();
+        JSONObject readData = getJSONData();
 
         //Get the events array part
         //TODO Finish
 
+        data.add(new myEvent("Test name", "Test description"));
 
-    return data;
-}
+        return data;
+    }
 
     /**
      * Reads the JSON Object from the asset file
