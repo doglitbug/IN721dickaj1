@@ -31,6 +31,7 @@ public class dataManager {
         //Get the events array part
         //TODO Finish
 
+        //TODO Remove stub data!
         data.add(new myEvent("Test name", "Test description"));
 
         return data;
