@@ -33,7 +33,8 @@ public class dataManager {
 
         //TODO Remove stub data!
         data.add(new myEvent("Test name", "Test description"));
-
+        data.add(new myEvent("Test name 1", "Test description 1"));
+        data.add(new myEvent("Test name 2", "Test description 2"));
         return data;
     }
 

@@ -2,11 +2,13 @@ package bit.dickaj1.jsonexample;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import java.util.ArrayList;
 import android.view.View;
+import android.widget.Toast;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -64,6 +66,18 @@ public class MainActivity extends AppCompatActivity {
 
         //Set adapter
         lvEvents.setAdapter(citiesAdapter);
+
+        //Set up a handler
+        //TODO Move this to a setup method rather than add it after the list is populated?
+        lvEvents.setOnItemClickListener(new lvEventsHandler());
     }
 
+    private class lvEventsHandler implements ListView.OnItemClickListener{
+
+        @Override
+        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            //TODO Check item isn;t null???
+            Toast.makeText(MainActivity.this,""+position,Toast.LENGTH_LONG).show();
+        }
+    }
 }
