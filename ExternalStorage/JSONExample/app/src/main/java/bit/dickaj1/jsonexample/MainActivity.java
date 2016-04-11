@@ -73,11 +73,15 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private class lvEventsHandler implements ListView.OnItemClickListener{
-
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-            //TODO Check item isn;t null???
-            Toast.makeText(MainActivity.this,""+position,Toast.LENGTH_LONG).show();
+            //TGet item clicked (as myEvent)
+            myEvent itemClicked=(myEvent)parent.getItemAtPosition(position);
+            //Get item description
+            String description=itemClicked.getDescription();
+
+            //Toast it
+            Toast.makeText(MainActivity.this,description,Toast.LENGTH_LONG).show();
         }
     }
 }

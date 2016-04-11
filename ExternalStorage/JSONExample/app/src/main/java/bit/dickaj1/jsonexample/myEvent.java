@@ -4,8 +4,8 @@ package bit.dickaj1.jsonexample;
  * Created by Arron on 8/04/2016.
  */
 public class myEvent {
-    String name;
-    String description;
+    private String name;
+    private String description;
 
     public myEvent(String name, String description){
         this.name=name;
