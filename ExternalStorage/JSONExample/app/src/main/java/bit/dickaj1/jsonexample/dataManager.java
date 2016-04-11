@@ -2,9 +2,11 @@ package bit.dickaj1.jsonexample;
 
 import android.content.Context;
 import android.content.res.AssetManager;
+import android.util.Log;
+import android.widget.Toast;
 
 import org.json.JSONException;
-import org.json.JSONObject;
+import org.json.*;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -17,24 +19,47 @@ public class dataManager {
     //Used for access to getAssets
     Context localContext;
 
+    /**
+     * Constructor
+     * @param context from parent so that methods needed are available
+     */
     public dataManager(Context context){
         localContext=context;
     }
 
+    /**
+     * Decode the JSON into an ArrayList of myEvent
+     * @return ArrayList<myEvent></myEvent>
+     */
     public ArrayList<myEvent> getEvents() {
         //Hold data to return
         ArrayList<myEvent> data = new ArrayList<>();
 
-        //Get the JSONObject
-        JSONObject readData = getJSONData();
+        try {
+            //Get the JSONObject
+            JSONObject allData = getJSONData();
+            //Get the events object
+            JSONObject eventsOb=allData.getJSONObject("events");
+            //Get the event array
+            JSONArray eventArray = eventsOb.getJSONArray("event");
 
-        //Get the events array part
-        //TODO Finish
+            //Loop over it now
+            int numberEvents=eventArray.length();
 
-        //TODO Remove stub data!
-        data.add(new myEvent("Test name", "Test description"));
-        data.add(new myEvent("Test name 1", "Test description 1"));
-        data.add(new myEvent("Test name 2", "Test description 2"));
+            for (int i=0;i<numberEvents;i++){
+                //Get an element from the array
+                JSONObject currentEvent=eventArray.getJSONObject(i);
+
+                //Retrieve data and construct a myEvent
+                String name=currentEvent.getString("title");
+                String description=currentEvent.getString("description");
+
+                data.add(new myEvent(name,description));
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
         return data;
     }
 
@@ -44,7 +69,7 @@ public class dataManager {
      * @return JSONObject
      */
     private JSONObject getJSONData(){
-        String filename="city_data.json";
+        String filename="dunedin_events.json";
         JSONObject dunedinEvents = null;
         //Get asset manager
         AssetManager am=localContext.getAssets();

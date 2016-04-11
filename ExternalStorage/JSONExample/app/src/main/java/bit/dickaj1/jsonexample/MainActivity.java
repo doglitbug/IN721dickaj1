@@ -21,7 +21,6 @@ public class MainActivity extends AppCompatActivity {
         //Set up button handlers
         setUpButton();
 
-        //TODO set up onclick for listview!
         //Create data manager
         dataSystem=new dataManager(this);
     }
