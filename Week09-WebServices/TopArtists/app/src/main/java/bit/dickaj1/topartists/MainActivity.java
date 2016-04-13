@@ -1,14 +1,19 @@
 package bit.dickaj1.topartists;
 
+import android.content.Context;
 import android.content.res.Resources;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import org.json.JSONArray;
@@ -142,8 +147,39 @@ public class MainActivity extends AppCompatActivity {
         //Grab reference to listView
         ListView lvTopArtists = (ListView)findViewById(R.id.lvTopArtists);
         //Create the adapter
-        ArrayAdapter<artist> topArtistsAdapter=new ArrayAdapter<>(this,R.layout.support_simple_spinner_dropdown_item,input);
+        ArtistArrayAdapter topArtistsAdapter=new ArtistArrayAdapter(this,R.layout.two_col_listview,input);
         //Bind the adapter
         lvTopArtists.setAdapter(topArtistsAdapter);
+    }
+
+    /**
+     * Custom adapter for listView
+     */
+    public class ArtistArrayAdapter extends ArrayAdapter<artist>{
+        public ArtistArrayAdapter(Context context, int resource,ArrayList<artist> objects){
+            super(context,resource,objects);
+        }
+        @Override
+        public View getView(int position, View convertView, ViewGroup container){
+            //Get an inflater from the activity
+            LayoutInflater inflater = LayoutInflater.from(MainActivity.this);
+            //Inflate our custom class
+            //TODO find out why this resource is being directly referenced when the class constructor is passed the same thing
+            View customView = inflater.inflate(R.layout.two_col_listview,container,false);
+
+            //Grab references to the controls
+            TextView tvArtist = (TextView)customView.findViewById(R.id.tvArtist);
+            TextView tvListeners = (TextView)customView.findViewById(R.id.tvListeners);
+
+            //Get current input item
+            artist currentItem=getItem(position);
+
+            //Use the data on the current item to fill the view
+            tvArtist.setText(currentItem.toString());
+            tvListeners.setText(String.valueOf(currentItem.getListeners()));
+
+            //Return the newly built view
+            return customView;
+        }
     }
 }
