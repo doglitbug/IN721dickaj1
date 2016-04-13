@@ -51,7 +51,6 @@ public class MainActivity extends AppCompatActivity {
                                 "limit=20&format=json&"+
                                 "api_key="+api_key;
 
-            //start try catch block
             try {
                 //Convert string to URL object
                 URL URLObject = new URL(urlString);
@@ -72,6 +71,7 @@ public class MainActivity extends AppCompatActivity {
                 while((responseString=br.readLine())!=null){
                     sb=sb.append(responseString);
                 }
+                //TODO Deal with error codes from api???
                 JSONString=sb.toString();
             } catch (MalformedURLException e){
                 //TODO Deal with malformed URL
@@ -83,6 +83,8 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(String fetchedString){
+            //TODO Check fetchedString is not null?
+
             //TODO Put in the list view
 
             Toast.makeText(MainActivity.this, fetchedString, Toast.LENGTH_SHORT).show();
