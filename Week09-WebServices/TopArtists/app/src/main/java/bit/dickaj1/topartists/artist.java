@@ -7,7 +7,7 @@ public class artist {
     private String name;
     private int listeners;
 
-    public void artist(String name, int listeners){
+    public artist(String name, int listeners){
         this.name=name;
         this.listeners=listeners;
     }

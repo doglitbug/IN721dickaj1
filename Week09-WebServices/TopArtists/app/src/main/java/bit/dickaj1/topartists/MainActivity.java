@@ -6,8 +6,14 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ListView;
 import android.widget.Toast;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -16,6 +22,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -28,6 +35,7 @@ public class MainActivity extends AppCompatActivity {
         Button btnFill = (Button)findViewById(R.id.btnFill);
         btnFill.setOnClickListener(new btnFillHandler());
     }
+
     public class btnFillHandler implements View.OnClickListener{
 
         @Override
@@ -75,20 +83,67 @@ public class MainActivity extends AppCompatActivity {
                 JSONString=sb.toString();
             } catch (MalformedURLException e){
                 //TODO Deal with malformed URL
+                e.printStackTrace();
             } catch (IOException e){
                 //TODO Deal with IO exception
+                e.printStackTrace();
             }
             return JSONString;
         }
 
         @Override
         protected void onPostExecute(String fetchedString){
-            //TODO Check fetchedString is not null?
-
-            //TODO Put in the list view
-
-            Toast.makeText(MainActivity.this, fetchedString, Toast.LENGTH_SHORT).show();
-            Log.d("ABC123", "onPostExecute: "+fetchedString);
+            //Decode and show
+            fillListView(decodeJSON(fetchedString));
         }
+    }
+
+    /**
+     * Decodes a JSON string in required artist information
+     * @param input JSON String
+     * @return ArrayList of artists
+     */
+    public ArrayList<artist> decodeJSON(String input){
+        //Hold data to return
+        ArrayList<artist> output = new ArrayList<>();
+        try {
+            //Get the JSON Object
+            JSONObject allData=new JSONObject(input);
+            //Get the artists object
+            JSONObject artistsObject = allData.getJSONObject("artists");
+            //Get the array of artists
+            JSONArray artistsArray=artistsObject.getJSONArray("artist");
+
+            //Loop over it now
+            int artistCount=artistsArray.length();
+            for (int i = 0; i < artistCount; i++) {
+                //Get an element from the array
+                JSONObject currentArtist=artistsArray.getJSONObject(i);
+
+                //Retrieve required data
+                String artistName=currentArtist.getString("name");
+                int listenerCount=currentArtist.getInt("listeners");
+
+                //Add a new artist to the arrayList
+                output.add(new artist(artistName,listenerCount));
+            }
+        } catch (JSONException e){
+            //TODO Deal with mal formed JSON gracefully
+            e.printStackTrace();
+        }
+        return output;
+    }
+
+    /**
+     * Populates the listView
+     * @param input ArrayList of artists to use
+     */
+    public void fillListView(ArrayList<artist> input){
+        //Grab reference to listView
+        ListView lvTopArtists = (ListView)findViewById(R.id.lvTopArtists);
+        //Create the adapter
+        ArrayAdapter<artist> topArtistsAdapter=new ArrayAdapter<>(this,R.layout.support_simple_spinner_dropdown_item,input);
+        //Bind the adapter
+        lvTopArtists.setAdapter(topArtistsAdapter);
     }
 }
