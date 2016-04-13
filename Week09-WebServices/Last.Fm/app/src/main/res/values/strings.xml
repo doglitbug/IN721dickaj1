@@ -1,0 +1,19 @@
+<resources>
+    <string name="app_name">Last.FmAPI</string>
+    <!--Main Activity strings-->
+    <string name="instructions">Please select from the following:</string>
+    <string name="btnTask1">1.Display top artists</string>
+    <string name="btnTask2">2.User search</string>
+    <string name="btnTask3">3.Display image</string>
+
+    <!--DisplayTop Activity-->
+    <string name="title_activity_top_artists">Top Artists</string>
+    <string name="btnFill">Fill list</string>
+
+    <!--UserSearch Activity-->
+    <string name="title_activity_user_search">User Search</string>
+
+    <!--DisplayImage Activity-->
+    <string name="title_activity_display_image">Display Image</string>
+
+</resources>
