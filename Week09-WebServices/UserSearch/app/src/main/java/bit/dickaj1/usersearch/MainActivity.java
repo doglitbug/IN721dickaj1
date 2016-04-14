@@ -12,6 +12,10 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -112,9 +116,32 @@ public class MainActivity extends AppCompatActivity {
 
     public ArrayList<String> decodeJSON(String input){
         //Hold data to return
-        //TODO
-        Log.d("ABC123", "decodeJSON: "+input);
-        return null;
+        ArrayList<String> output=new ArrayList<>();
+        try {
+        //Get the JSON object
+        JSONObject allData=new JSONObject(input);
+        //Get the similar artists object
+        JSONObject artistsObject=allData.getJSONObject("similarartists");
+        //Get the artists array
+        JSONArray artistsArray=artistsObject.getJSONArray("artist");
+
+        //Loop over it now
+        int artistCount=artistsArray.length();
+        for (int i = 0; i < artistCount; i++) {
+            //Get an element from the array
+            JSONObject currentArtist = artistsArray.getJSONObject(i);
+
+            //Retrieve required data
+            String artistName = currentArtist.getString("name");
+
+            //Add a new artist to the arrayList
+            output.add(artistName);
+        }
+        } catch (JSONException e){
+            //TODO Deal with this error gracefully
+            e.printStackTrace();
+        }
+        return output;
     }
 
     /**
@@ -127,6 +154,6 @@ public class MainActivity extends AppCompatActivity {
         //Create the adapter
         ArrayAdapter<String> similarArtistsAdapter=new ArrayAdapter<>(this,R.layout.support_simple_spinner_dropdown_item,input);
         //Bind the adapter
-        //lvResults.setAdapter(similarArtistsAdapter);
+        lvResults.setAdapter(similarArtistsAdapter);
     }
 }
