@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">UserSearch</string>
+
+    <string name="api_key">58384a2141a4b9737eacb9d0989b8a8c</string>
+
+    <string name="instructions">Enter artist to search for</string>
+    <string name="btnSearch">Search</string>
+    <string name="results">Results</string>
+</resources>
