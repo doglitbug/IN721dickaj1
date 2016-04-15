@@ -41,12 +41,12 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public class getArtistImageURL extends AsyncTask<Void, Void, String> {
+    public class getArtistImageURL extends AsyncTask<Void, Void, Bitmap> {
 
         @Override
-        protected String doInBackground(Void... params) {
+        protected Bitmap doInBackground(Void... params) {
             //Hold result
-            String output = null;
+            Bitmap output = null;
             //Grab api key
             Resources res = getResources();
             String api_key = res.getString(R.string.api_key);
@@ -55,7 +55,9 @@ public class MainActivity extends AppCompatActivity {
                     "method=chart.gettopartists&" +
                     "limit=1&format=json&" +
                     "api_key=" + api_key;
-
+            //Hold data from first connectiong
+            String fetchedString="";
+            /////////////// Get the info on the artist ////////////////
             try {
                 //Convert string to URL object
                 URL URLObject = new URL(urlString);
@@ -77,7 +79,7 @@ public class MainActivity extends AppCompatActivity {
                     sb = sb.append(responseString);
                 }
                 //TODO Deal with error codes from api???
-                output = sb.toString();
+                fetchedString = sb.toString();
             } catch (MalformedURLException e) {
                 //TODO Deal with malformed URL
                 e.printStackTrace();
@@ -85,24 +87,25 @@ public class MainActivity extends AppCompatActivity {
                 //TODO Deal with IO exception
                 e.printStackTrace();
             }
-            return output;
-        }
 
-        @Override
-        protected void onPostExecute(String fetchedString) {
-            //Get imageURL
 
             URL imageURL = decodeJSONandGetImageURL(fetchedString);
 
             Log.d("ABC123", "onPostExecute: "+imageURL.toString());
 
             //Get image
-            Bitmap retrievedImage=downloadBitmap(imageURL);
+            output=downloadBitmap(imageURL);
 
+
+            return output;
+        }
+
+        @Override
+        protected void onPostExecute(Bitmap fetchedImage) {
             //Get reference to imageView
             ImageView ivArtist = (ImageView) findViewById(R.id.ivArtist);
             //Set image
-            ivArtist.setImageBitmap(retrievedImage);
+            ivArtist.setImageBitmap(fetchedImage);
         }
     }
 
@@ -159,7 +162,7 @@ public class MainActivity extends AppCompatActivity {
             JSONObject artistImage = artistImages.getJSONObject(0);
 
             String imageURL = artistImage.getString("#text");
-            Log.d("ABC123", "decodeJSONandGetImageURL: imageURL "+imageURL);
+
             //Add a new artist to the arrayList
             output = new URL(imageURL);
 
