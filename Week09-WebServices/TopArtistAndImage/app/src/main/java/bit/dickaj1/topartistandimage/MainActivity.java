@@ -53,7 +53,7 @@ public class MainActivity extends AppCompatActivity {
             //Create string
             String urlString = "http://ws.audioscrobbler.com/2.0/?" +
                     "method=chart.gettopartists&" +
-                    "limit=20&format=json&" +
+                    "limit=1&format=json&" +
                     "api_key=" + api_key;
 
             try {
@@ -158,7 +158,7 @@ public class MainActivity extends AppCompatActivity {
             //TODO Check this is the correct size, eg "small"
             JSONObject artistImage = artistImages.getJSONObject(0);
 
-            String imageURL = artistImage.getString("name");
+            String imageURL = artistImage.getString("#text");
             Log.d("ABC123", "decodeJSONandGetImageURL: imageURL "+imageURL);
             //Add a new artist to the arrayList
             output = new URL(imageURL);
