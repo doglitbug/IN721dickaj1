@@ -1,18 +1,17 @@
 package bit.dickaj1.topartistandimage;
 
 import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.Toast;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -22,39 +21,39 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 public class MainActivity extends AppCompatActivity {
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
         //Set up button
-        Button btnFetch = (Button)findViewById(R.id.btnFetch);
+        Button btnFetch = (Button) findViewById(R.id.btnFetch);
         btnFetch.setOnClickListener(new btnFetchHandler());
     }
 
-    public class btnFetchHandler implements View.OnClickListener{
+    public class btnFetchHandler implements View.OnClickListener {
         @Override
         public void onClick(View v) {
             //Call method to grab JSON, decode, and get image/display
-            Toast.makeText(MainActivity.this, "You Clicked me!", Toast.LENGTH_SHORT).show();
+            getArtistImageURL thread = new getArtistImageURL();
+            thread.execute();
         }
     }
 
-    public class getArtistImage extends AsyncTask<Void,Void,String> {
+    public class getArtistImageURL extends AsyncTask<Void, Void, String> {
 
         @Override
         protected String doInBackground(Void... params) {
             //Hold result
-            String JSONString=null;
+            String output = null;
             //Grab api key
-            Resources res=getResources();
-            String api_key=res.getString(R.string.api_key);
+            Resources res = getResources();
+            String api_key = res.getString(R.string.api_key);
             //Create string
-            String urlString="http://ws.audioscrobbler.com/2.0/?"+
-                    "method=chart.gettopartists&"+
-                    "limit=20&format=json&"+
-                    "api_key="+api_key;
+            String urlString = "http://ws.audioscrobbler.com/2.0/?" +
+                    "method=chart.gettopartists&" +
+                    "limit=20&format=json&" +
+                    "api_key=" + api_key;
 
             try {
                 //Convert string to URL object
@@ -64,20 +63,61 @@ public class MainActivity extends AppCompatActivity {
                 //Send the URL
                 con.connect();
                 //If it doesn't return 200, you don't have data
-                int response=con.getResponseCode();
+                int response = con.getResponseCode();
                 //TODO Do something if response isn't 200
                 //Get an inputstream and set up a reader etc
-                InputStream is=con.getInputStream();
-                InputStreamReader ir=new InputStreamReader(is);
-                BufferedReader br=new BufferedReader(ir);
+                InputStream is = con.getInputStream();
+                InputStreamReader ir = new InputStreamReader(is);
+                BufferedReader br = new BufferedReader(ir);
                 //Read input
                 String responseString;
-                StringBuilder sb=new StringBuilder();
-                while((responseString=br.readLine())!=null){
-                    sb=sb.append(responseString);
+                StringBuilder sb = new StringBuilder();
+                while ((responseString = br.readLine()) != null) {
+                    sb = sb.append(responseString);
                 }
                 //TODO Deal with error codes from api???
-                JSONString=sb.toString();
+                output = sb.toString();
+            } catch (MalformedURLException e) {
+                //TODO Deal with malformed URL
+                e.printStackTrace();
+            } catch (IOException e) {
+                //TODO Deal with IO exception
+                e.printStackTrace();
+            }
+            return output;
+        }
+
+        @Override
+        protected void onPostExecute(String fetchedString) {
+            //Get imageURL
+            URL imageURL = decodeJSONandGetImageURL(fetchedString);
+
+            //Get image
+            downloadImage imageDownloader=new downloadImage();
+            imageDownloader.execute(imageURL);
+        }
+    }
+
+    public class downloadImage extends AsyncTask<URL,Void,Bitmap>{
+
+        @Override
+        protected Bitmap doInBackground(URL... params) {
+            //Hold downloaded image
+            Bitmap output=null;
+
+            try {
+                //Get the URL we want
+                URL URLObject = params[0];
+                //Create HttpUrlConnection
+                HttpURLConnection con = (HttpURLConnection) URLObject.openConnection();
+                //Send the URL
+                con.connect();
+                //If it doesn't return 200, you don't have data
+                int response=con.getResponseCode();
+                //TODO Do something if response isn't 200
+
+                output= BitmapFactory.decodeStream(con.getInputStream());
+
             } catch (MalformedURLException e){
                 //TODO Deal with malformed URL
                 e.printStackTrace();
@@ -85,50 +125,47 @@ public class MainActivity extends AppCompatActivity {
                 //TODO Deal with IO exception
                 e.printStackTrace();
             }
-            return JSONString;
+            return output;
         }
 
         @Override
-        protected void onPostExecute(String fetchedString){
+        protected void onPostExecute(Bitmap retrievedImage){
             //Get reference to imageView
-            ImageView ivArtist=(ImageView)findViewById(R.id.ivArtist);
-            //TODO Decode JSON
-
-            //TODO Set image
-
-            //ivArtist.setImageBitmap(decodeJSONandGetImageURL(fetchedString));
-
+            ImageView ivArtist = (ImageView) findViewById(R.id.ivArtist);
+            ivArtist.setImageBitmap(retrievedImage);
         }
     }
 
     /**
      * Decodes a JSON string in required artist information
+     *
      * @param input JSON String
+     * @return URL of the image
      */
-    public URL decodeJSONandGetImageURL(String input){
+    public URL decodeJSONandGetImageURL(String input) {
         //Hold data to return
-        URL output=null;
+        URL output = null;
         try {
             //Get the JSON Object
-            JSONObject allData=new JSONObject(input);
+            JSONObject allData = new JSONObject(input);
             //Get the artists object
             JSONObject artistsObject = allData.getJSONObject("artists");
             //Get the array of artists
-            JSONArray artistsArray=artistsObject.getJSONArray("artist");
+            JSONArray artistsArray = artistsObject.getJSONArray("artist");
             //Get the first artist(the top artist)
-            JSONObject topArtist=artistsArray.getJSONObject(0);
+            JSONObject topArtist = artistsArray.getJSONObject(0);
             //Get the image array
-            JSONArray artistImages=topArtist.getJSONArray("image");
+            JSONArray artistImages = topArtist.getJSONArray("image");
             //Get the first image object
             //TODO Check this is the correct size, eg "small"
-            JSONObject artistImage=artistImages.getJSONObject(0);
+            JSONObject artistImage = artistImages.getJSONObject(0);
 
-            String imageURL=artistImage.getString("name");
+            String imageURL = artistImage.getString("name");
 
             //Add a new artist to the arrayList
-            output=new URL(imageURL);
+            output = new URL(imageURL);
 
-        } catch (JSONException e){
+        } catch (JSONException e) {
             //TODO Deal with mal formed JSON gracefully
             e.printStackTrace();
         } catch (MalformedURLException e) {
@@ -137,4 +174,4 @@ public class MainActivity extends AppCompatActivity {
         }
         return output;
     }
-    }
+}
