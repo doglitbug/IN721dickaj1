@@ -6,6 +6,7 @@ import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -90,50 +91,47 @@ public class MainActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(String fetchedString) {
             //Get imageURL
+
             URL imageURL = decodeJSONandGetImageURL(fetchedString);
 
+            Log.d("ABC123", "onPostExecute: "+imageURL.toString());
+
             //Get image
-            downloadImage imageDownloader=new downloadImage();
-            imageDownloader.execute(imageURL);
+            Bitmap retrievedImage=downloadBitmap(imageURL);
+
+            //Get reference to imageView
+            ImageView ivArtist = (ImageView) findViewById(R.id.ivArtist);
+            //Set image
+            ivArtist.setImageBitmap(retrievedImage);
         }
     }
 
-    public class downloadImage extends AsyncTask<URL,Void,Bitmap>{
+    public Bitmap downloadBitmap(URL imageURL) {
+        //Hold downloaded image
+        Bitmap output=null;
 
-        @Override
-        protected Bitmap doInBackground(URL... params) {
-            //Hold downloaded image
-            Bitmap output=null;
+        try {
+            //Get the URL we want
+            URL URLObject = imageURL;
 
-            try {
-                //Get the URL we want
-                URL URLObject = params[0];
-                //Create HttpUrlConnection
-                HttpURLConnection con = (HttpURLConnection) URLObject.openConnection();
-                //Send the URL
-                con.connect();
-                //If it doesn't return 200, you don't have data
-                int response=con.getResponseCode();
-                //TODO Do something if response isn't 200
+            //Create HttpUrlConnection
+            HttpURLConnection con = (HttpURLConnection) URLObject.openConnection();
+            //Send the URL
+            con.connect();
+            //If it doesn't return 200, you don't have data
+            int response=con.getResponseCode();
+            //TODO Do something if response isn't 200
 
-                output= BitmapFactory.decodeStream(con.getInputStream());
+            output= BitmapFactory.decodeStream(con.getInputStream());
 
-            } catch (MalformedURLException e){
-                //TODO Deal with malformed URL
-                e.printStackTrace();
-            } catch (IOException e){
-                //TODO Deal with IO exception
-                e.printStackTrace();
-            }
-            return output;
+        } catch (MalformedURLException e){
+            //TODO Deal with malformed URL
+            e.printStackTrace();
+        } catch (IOException e){
+            //TODO Deal with IO exception
+            e.printStackTrace();
         }
-
-        @Override
-        protected void onPostExecute(Bitmap retrievedImage){
-            //Get reference to imageView
-            ImageView ivArtist = (ImageView) findViewById(R.id.ivArtist);
-            ivArtist.setImageBitmap(retrievedImage);
-        }
+        return output;
     }
 
     /**
@@ -161,7 +159,7 @@ public class MainActivity extends AppCompatActivity {
             JSONObject artistImage = artistImages.getJSONObject(0);
 
             String imageURL = artistImage.getString("name");
-
+            Log.d("ABC123", "decodeJSONandGetImageURL: imageURL "+imageURL);
             //Add a new artist to the arrayList
             output = new URL(imageURL);
 
