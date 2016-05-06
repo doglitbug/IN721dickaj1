@@ -63,7 +63,9 @@ public class MainActivity extends AppCompatActivity {
     private Location getLocation() {
         Location output = new Location("Randomization");
         Random rng = new Random();
+        //Generate a random latitude between -90 and +90
         output.setLatitude(rng.nextDouble() * 180 - 90);
+        //Generate a random longitude between -180 and +180
         output.setLongitude(rng.nextDouble() * 360 - 180);
 
         return output;
