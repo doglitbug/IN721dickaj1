@@ -9,6 +9,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -45,10 +48,10 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void onClick(View v) {
             //Get a new location
-            Location test = getLocation();
+            Location test = getCoords();
 
             //Set on form
-            updateLocation(test);
+            updateLocationCoords(test);
 
             //Get geoplugin data
             AsyncGetLocationData thread=new AsyncGetLocationData();
@@ -61,7 +64,7 @@ public class MainActivity extends AppCompatActivity {
      *
      * @param newLocation Location to show
      */
-    private void updateLocation(Location newLocation) {
+    private void updateLocationCoords(Location newLocation) {
         //Get references
         TextView latitude = (TextView) findViewById(R.id.tvLatitude);
         TextView longitude = (TextView) findViewById(R.id.tvLongitude);
@@ -75,7 +78,7 @@ public class MainActivity extends AppCompatActivity {
      *
      * @return Location requested
      */
-    private Location getLocation() {
+    private Location getCoords() {
         Location output = new Location("Randomization");
         Random rng = new Random();
         //Generate a random latitude between -90 and +90
@@ -131,8 +134,37 @@ public class MainActivity extends AppCompatActivity {
                 e.printStackTrace();
 
             }
-            Log.i("ABC123", "doInBackground: JSONString:"+JSONString);
             return JSONString;
         }
+
+        @Override
+        protected void onPostExecute(String fetchedString){
+            //Assume output from geoplugin.net
+
+            //Get reference to textView
+            TextView tvClosestCity=(TextView)findViewById(R.id.tvClosestCity);
+
+            tvClosestCity.setText(decodeJSON(fetchedString));
+        }
+    }
+
+    public String decodeJSON(String input){
+        //Hold data to return
+        String output="";
+        //TODO More verbose checking here?
+        if (input.equals("[[]]")) {
+            return "No city found";
+        }
+
+        try {
+            //Get the JSON object
+            JSONObject allData=new JSONObject(input);
+            //Get the name of the city
+            output=allData.getString("geoplugin_place");
+        } catch (JSONException e) {
+            //TODO Deal with gracefully
+            e.printStackTrace();
+        }
+        return output;
     }
 }
