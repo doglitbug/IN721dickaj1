@@ -48,29 +48,30 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void onClick(View v) {
             //Get a new location
-            Location test = getCoords();
-
-            //Set on form
-            updateLocationCoords(test);
+            Location testLocation = getCoords();
 
             //Get geoplugin data
             AsyncGetLocationData thread=new AsyncGetLocationData();
-            thread.execute(test);
+            thread.execute(testLocation);
         }
     }
 
     /**
-     * Updates the screen to show the current location
+     * Updates the screen to show the current location and city name
      *
      * @param newLocation Location to show
+     * @param cityName Name of the city to show
      */
-    private void updateLocationCoords(Location newLocation) {
+    private void updateLocationCoords(Location newLocation,String cityName) {
         //Get references
         TextView latitude = (TextView) findViewById(R.id.tvLatitude);
         TextView longitude = (TextView) findViewById(R.id.tvLongitude);
+        TextView tvClosestCity=(TextView)findViewById(R.id.tvClosestCity);
+
         //Set text
         latitude.setText(String.format("%.3f", newLocation.getLatitude()));
         longitude.setText(String.format("%.3f", newLocation.getLongitude()));
+        tvClosestCity.setText(cityName);
     }
 
     /**
@@ -96,75 +97,82 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         protected String doInBackground(Location... params) {
-            //TODO Check Location is valid?
-
+            //Hold location to check
+            Location toCheck=params[0];
             //Hold result
-            String JSONString=null;
+            String JSONString="[[]]";
 
-            //Create url string
-            String urlString = "http://www.geoplugin.net/extras/location.gp?lat="+params[0].getLatitude()+
-                    "&long="+params[0].getLongitude()+
-                    "&format=json";
-            try {
-                //Convert string to URL object
-                URL URLObject = new URL(urlString);
-                //Create HttpUrlConnection
-                HttpURLConnection con = (HttpURLConnection) URLObject.openConnection();
-                //Send the URL
-                con.connect();
-                //If it doesn't return 200, you don't have data
-                int response=con.getResponseCode();
-                //TODO Do something if response isn't 200
-                //Get an inputstream and set up a reader etc
-                InputStream is=con.getInputStream();
-                InputStreamReader ir=new InputStreamReader(is);
-                BufferedReader br=new BufferedReader(ir);
-                //Read input
-                String responseString;
-                StringBuilder sb=new StringBuilder();
-                while((responseString=br.readLine())!=null){
-                    sb=sb.append(responseString);
+            do{
+                //Create url string
+                String urlString = "http://www.geoplugin.net/extras/location.gp?lat=" + toCheck.getLatitude() +
+                        "&long=" + toCheck.getLongitude() +
+                        "&format=json";
+                try {
+                    //Convert string to URL object
+                    URL URLObject = new URL(urlString);
+                    //Create HttpUrlConnection
+                    HttpURLConnection con = (HttpURLConnection) URLObject.openConnection();
+                    //Send the URL
+                    con.connect();
+                    //If it doesn't return 200, you don't have data
+                    int response = con.getResponseCode();
+                    //TODO Do something if response isn't 200
+                    //Get an inputstream and set up a reader etc
+                    InputStream is = con.getInputStream();
+                    InputStreamReader ir = new InputStreamReader(is);
+                    BufferedReader br = new BufferedReader(ir);
+                    //Read input
+                    String responseString;
+                    StringBuilder sb = new StringBuilder();
+                    while ((responseString = br.readLine()) != null) {
+                        sb = sb.append(responseString);
+                    }
+                    JSONString = sb.toString();
+                } catch (MalformedURLException e) {
+                    //TODO Deal with malformed URL
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    //TODO Deal with IO exception
+                    e.printStackTrace();
+
                 }
-                JSONString=sb.toString();
-            } catch (MalformedURLException e){
-                //TODO Deal with malformed URL
-                e.printStackTrace();
-            } catch (IOException e){
-                //TODO Deal with IO exception
-                e.printStackTrace();
+                //Get a new location to check next loop
+                toCheck=getCoords();
+            }while(JSONString.equals("[[]]"));
 
-            }
             return JSONString;
         }
 
         @Override
         protected void onPostExecute(String fetchedString){
-            //Assume output from geoplugin.net
-
-            //Get reference to textView
-            TextView tvClosestCity=(TextView)findViewById(R.id.tvClosestCity);
-
-            tvClosestCity.setText(decodeJSON(fetchedString));
+            decodeJSON(fetchedString);
         }
     }
 
-    public String decodeJSON(String input){
+    public void decodeJSON(String input){
         //Hold data to return
-        String output="";
-        //TODO More verbose checking here?
-        if (input.equals("[[]]")) {
-            return "No city found";
-        }
+        String cityName="";
 
         try {
             //Get the JSON object
             JSONObject allData=new JSONObject(input);
             //Get the name of the city
-            output=allData.getString("geoplugin_place");
+            cityName=allData.getString("geoplugin_place");
+            //Get location data
+            Double latitude=allData.getDouble("geoplugin_latitude");
+            Double longitude=allData.getDouble("geoplugin_longitude");
+
+            //Create new location
+            Location newLocation=new Location("Randomization");
+            newLocation.setLatitude(latitude);
+            newLocation.setLongitude(longitude);
+
+            //Update on form
+            updateLocationCoords(newLocation,cityName);
+
         } catch (JSONException e) {
             //TODO Deal with gracefully
             e.printStackTrace();
         }
-        return output;
     }
 }
