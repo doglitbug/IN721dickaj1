@@ -9,6 +9,13 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity {
@@ -79,6 +86,9 @@ public class MainActivity extends AppCompatActivity {
         return output;
     }
 
+    /**
+     * Downloads data from geoplugin.net
+     */
     public class AsyncGetLocationData extends AsyncTask<Location, Void, String> {
 
         @Override
@@ -92,8 +102,37 @@ public class MainActivity extends AppCompatActivity {
             String urlString = "http://www.geoplugin.net/extras/location.gp?lat="+params[0].getLatitude()+
                     "&long="+params[0].getLongitude()+
                     "&format=json";
-            Log.i("ABC123", "doInBackground: urlString:"+urlString);
-            return null;
+            try {
+                //Convert string to URL object
+                URL URLObject = new URL(urlString);
+                //Create HttpUrlConnection
+                HttpURLConnection con = (HttpURLConnection) URLObject.openConnection();
+                //Send the URL
+                con.connect();
+                //If it doesn't return 200, you don't have data
+                int response=con.getResponseCode();
+                //TODO Do something if response isn't 200
+                //Get an inputstream and set up a reader etc
+                InputStream is=con.getInputStream();
+                InputStreamReader ir=new InputStreamReader(is);
+                BufferedReader br=new BufferedReader(ir);
+                //Read input
+                String responseString;
+                StringBuilder sb=new StringBuilder();
+                while((responseString=br.readLine())!=null){
+                    sb=sb.append(responseString);
+                }
+                JSONString=sb.toString();
+            } catch (MalformedURLException e){
+                //TODO Deal with malformed URL
+                e.printStackTrace();
+            } catch (IOException e){
+                //TODO Deal with IO exception
+                e.printStackTrace();
+
+            }
+            Log.i("ABC123", "doInBackground: JSONString:"+JSONString);
+            return JSONString;
         }
     }
 }
