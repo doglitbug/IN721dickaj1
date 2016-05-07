@@ -1,6 +1,7 @@
 package bit.dickaj1.teleporter;
 
 import android.location.Location;
+import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -24,40 +25,47 @@ public class MainActivity extends AppCompatActivity {
     /**
      * Sets up the on click handler for button(s)
      */
-    private void setUpButtons(){
-    //Get reference to button
-    Button btnTeleport=(Button)findViewById(R.id.btnTeleport);
+    private void setUpButtons() {
+        //Get reference to button
+        Button btnTeleport = (Button) findViewById(R.id.btnTeleport);
 
-    //Set onclick handler
-    btnTeleport.setOnClickListener(new btnTeleportHandler());
-}
+        //Set onclick handler
+        btnTeleport.setOnClickListener(new btnTeleportHandler());
+    }
 
-    private class btnTeleportHandler implements View.OnClickListener{
+    private class btnTeleportHandler implements View.OnClickListener {
 
         @Override
         public void onClick(View v) {
             //Get a new location
-            Location test=getLocation();
+            Location test = getLocation();
 
             //Set on form
             updateLocation(test);
+
+            //Get geoplugin data
+            AsyncGetLocationData thread=new AsyncGetLocationData();
+            thread.execute(test);
         }
     }
 
     /**
      * Updates the screen to show the current location
+     *
      * @param newLocation Location to show
      */
-    private void updateLocation(Location newLocation){
+    private void updateLocation(Location newLocation) {
         //Get references
-        TextView latitude=(TextView)findViewById(R.id.tvLatitude);
-        TextView longitude=(TextView)findViewById(R.id.tvLongitude);
+        TextView latitude = (TextView) findViewById(R.id.tvLatitude);
+        TextView longitude = (TextView) findViewById(R.id.tvLongitude);
         //Set text
-        latitude.setText(String.format("%.3f",newLocation.getLatitude()));
-        longitude.setText(String.format("%.3f",newLocation.getLongitude()));
+        latitude.setText(String.format("%.3f", newLocation.getLatitude()));
+        longitude.setText(String.format("%.3f", newLocation.getLongitude()));
     }
+
     /**
      * Gets/generates a location
+     *
      * @return Location requested
      */
     private Location getLocation() {
@@ -69,5 +77,23 @@ public class MainActivity extends AppCompatActivity {
         output.setLongitude(rng.nextDouble() * 360 - 180);
 
         return output;
+    }
+
+    public class AsyncGetLocationData extends AsyncTask<Location, Void, String> {
+
+        @Override
+        protected String doInBackground(Location... params) {
+            //TODO Check Location is valid?
+
+            //Hold result
+            String JSONString=null;
+
+            //Create url string
+            String urlString = "http://www.geoplugin.net/extras/location.gp?lat="+params[0].getLatitude()+
+                    "&long="+params[0].getLongitude()+
+                    "&format=json";
+            Log.i("ABC123", "doInBackground: urlString:"+urlString);
+            return null;
+        }
     }
 }
