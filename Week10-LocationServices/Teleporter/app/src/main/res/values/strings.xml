@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">Teleporter</string>
+    
+
+    <string name="dialog_title">Searching for city</string>
+    <string name="dialog_message">Checked %1$s location%2$s</string>
 </resources>

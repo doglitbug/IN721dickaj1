@@ -1,5 +1,6 @@
 package bit.dickaj1.teleporter;
 
+import android.app.ProgressDialog;
 import android.location.Location;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
@@ -7,6 +8,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import org.json.JSONException;
@@ -93,20 +95,36 @@ public class MainActivity extends AppCompatActivity {
     /**
      * Downloads data from geoplugin.net
      */
-    public class AsyncGetLocationData extends AsyncTask<Location, Void, String> {
+    public class AsyncGetLocationData extends AsyncTask<Location, Integer, String> {
+        //Create progressDialog
+        ProgressDialog pDialog = new ProgressDialog(MainActivity.this);
 
+        @Override
+        protected void onPreExecute(){
+            //Set up dialog
+            pDialog.setMessage(getString(R.string.dialog_message));
+            pDialog.show();
+        }
         @Override
         protected String doInBackground(Location... params) {
             //Hold location to check
             Location toCheck=params[0];
             //Hold result
             String JSONString="[[]]";
+            //Hold number of locations checked
+            int locationsChecked=0;
 
             do{
                 //Create url string
                 String urlString = "http://www.geoplugin.net/extras/location.gp?lat=" + toCheck.getLatitude() +
                         "&long=" + toCheck.getLongitude() +
                         "&format=json";
+                //Increment number of locations checked
+                locationsChecked++;
+
+                //Let user know that app hasn't hung
+                publishProgress(locationsChecked);
+
                 try {
                     //Convert string to URL object
                     URL URLObject = new URL(urlString);
@@ -143,15 +161,29 @@ public class MainActivity extends AppCompatActivity {
             return JSONString;
         }
 
+        protected void onProgressUpdate(Integer... locationsChecked){
+            //Build message to show
+            String message=String.format(getString(R.string.dialog_message),locationsChecked[0],locationsChecked[0]==1?"":"s");
+            //Show message
+            pDialog.setMessage(message);
+        }
+
         @Override
         protected void onPostExecute(String fetchedString){
+            //Dismiss progress dialog
+            pDialog.dismiss();
+            //Deal with results
             decodeJSON(fetchedString);
         }
     }
 
+    /**
+     * Decodes a JSON string from geoplugin and update form
+     * @param input Downloaded JSON string
+     */
     public void decodeJSON(String input){
         //Hold data to return
-        String cityName="";
+        String cityName;
 
         try {
             //Get the JSON object
