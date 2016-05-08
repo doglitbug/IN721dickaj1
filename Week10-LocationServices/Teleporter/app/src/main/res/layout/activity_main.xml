@@ -12,7 +12,7 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="TELEPORT"
+        android:text="@string/btn_teleport"
         android:id="@+id/btnTeleport"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true" />
@@ -21,7 +21,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Longitude:"
+        android:text="@string/lbl_longitude"
         android:id="@+id/textView"
         android:layout_below="@+id/btnTeleport"
         android:layout_alignParentLeft="true"
@@ -31,7 +31,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Latitude:"
+        android:text="@string/lbl_latitude"
         android:id="@+id/textView2"
         android:layout_below="@+id/textView"
         android:layout_alignParentLeft="true"
@@ -59,7 +59,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Closest city:"
+        android:text="@string/lbl_closest_city"
         android:id="@+id/textView3"
         android:layout_below="@+id/textView2" />
 

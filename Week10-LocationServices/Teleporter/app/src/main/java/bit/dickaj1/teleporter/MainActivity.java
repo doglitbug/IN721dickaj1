@@ -102,7 +102,7 @@ public class MainActivity extends AppCompatActivity {
         @Override
         protected void onPreExecute(){
             //Set up dialog
-            pDialog.setMessage(getString(R.string.dialog_message));
+            pDialog.setMessage(getString(R.string.dialog_title));
             pDialog.show();
         }
         @Override
