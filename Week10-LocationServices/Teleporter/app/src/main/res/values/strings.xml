@@ -10,4 +10,5 @@
     <string name="lbl_closest_city">Closest city:</string>
 
     <string name="flickr_apikey">eda41a123d459be0f85276d37290651e</string>
+    <string name="flickr_imageString">https://farm%1$s.staticflickr.com/%2$s/%3$s_%4$s_%5$s.jpg</string>
 </resources>
