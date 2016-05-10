@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import org.json.JSONArray;
@@ -293,10 +294,24 @@ public class MainActivity extends AppCompatActivity {
                 String size="m";
 
                 // Build image URL
-                String imageURL=String.format(getString(R.string.flickr_imageString),farmID,serverID,photoID,secret,size);
-                Log.i("ABC123", "onPostExecute: imageURL"+imageURL);
+                String imageString=String.format(getString(R.string.flickr_imageString),farmID,serverID,photoID,secret,size);
+                URL imageURL=new URL(imageString);
+
+                //TODO Download image and set on form, wait for android to moan about threads here?
+                //Get reference to imageView
+                ImageView ivClosestCity=(ImageView)findViewById(R.id.ivClosestCity);
+
+                //request download of the image
+                Bitmap getImage=downloadBitmap(imageURL);
+                //Check we actually got something
+                if(getImage!=null) {
+                    ivClosestCity.setImageBitmap(getImage);
+                }
             } catch (JSONException e) {
                 //TODO Deal with gracefully
+                e.printStackTrace();
+            } catch (MalformedURLException e) {
+                //TODO Deal with this gracefully
                 e.printStackTrace();
             }
         }
@@ -308,6 +323,7 @@ public class MainActivity extends AppCompatActivity {
      * @return Bitmap of requested image
      */
     public Bitmap downloadBitmap(URL imageURL) {
+        Log.i("ABC123", "downloadBitmap: "+imageURL);
         //Hold downloaded image
         Bitmap output=null;
 
@@ -322,9 +338,12 @@ public class MainActivity extends AppCompatActivity {
             //If it doesn't return 200, you don't have data
             int response=con.getResponseCode();
             //TODO Do something if response isn't 200
-
-            output= BitmapFactory.decodeStream(con.getInputStream());
-
+            if (response==200) {
+                output = BitmapFactory.decodeStream(con.getInputStream());
+            } else {
+                //TODO ???
+                Log.i("ABC123", "downloadBitmap: response code: "+response);
+            }
         } catch (MalformedURLException e){
             //TODO Deal with malformed URL
             e.printStackTrace();
