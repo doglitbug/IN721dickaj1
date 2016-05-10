@@ -217,113 +217,122 @@ public class MainActivity extends AppCompatActivity {
     }
 
     //////////// Methods to produce an image from a city name
-    public class AsyncSearchFlickrWithCityName extends AsyncTask<String, Void, String> {
+    public class AsyncSearchFlickrWithCityName extends AsyncTask<String, Void, Bitmap> {
 
         @Override
-        protected String doInBackground(String... params) {
+        protected Bitmap doInBackground(String... params) {
             //Hold name of city to search for
-            String cityName=params[0];
+            String cityName = params[0];
             //Hold result
-            String JSONString="";
+            String JSONString = "";
 
             //Create request string
-            String urlString="https://api.flickr.com/services/rest/?method=flickr.photos.search&api_key="+getString(R.string.flickr_apikey)+
-                    "&tags="+cityName+
+            String urlString = "https://api.flickr.com/services/rest/?method=flickr.photos.search&api_key=" + getString(R.string.flickr_apikey) +
+                    "&tags=" + cityName +
                     "&format=json&nojsoncallback=1";
 
-            Log.i("ABC123", "doInBackground: Flickr URL: "+urlString);
-            //DEBUG TODO dont query Flickr until certain url is correct
+            try {
+                //Convert string to URL object
+                URL URLObject = new URL(urlString);
+                //Create HttpUrlConnection
+                HttpURLConnection con = (HttpURLConnection) URLObject.openConnection();
+                //Send the URL
+                con.connect();
+                //If it doesn't return 200, you don't have data
+                int response = con.getResponseCode();
+                //TODO Do something if response isn't 200
+                if (response!=200) {
+                    Log.i("ABC123", "doInBackground: responseCode: " + response);
+                    return null;
+                }
+                //Get an inputstream and set up a reader etc
+                InputStream is = con.getInputStream();
+                InputStreamReader ir = new InputStreamReader(is);
+                BufferedReader br = new BufferedReader(ir);
+                //Read input
+                String responseString;
+                StringBuilder sb = new StringBuilder();
+                while ((responseString = br.readLine()) != null) {
+                    sb = sb.append(responseString);
+                }
+                JSONString = sb.toString();
+            } catch (MalformedURLException e) {
+                //TODO Deal with malformed URL
+                e.printStackTrace();
+            } catch (IOException e) {
+                //TODO Deal with IO exception
+                e.printStackTrace();
 
-//            try {
-//                //Convert string to URL object
-//                URL URLObject = new URL(urlString);
-//                //Create HttpUrlConnection
-//                HttpURLConnection con = (HttpURLConnection) URLObject.openConnection();
-//                //Send the URL
-//                con.connect();
-//                //If it doesn't return 200, you don't have data
-//                int response = con.getResponseCode();
-//                //TODO Do something if response isn't 200
-//                //Get an inputstream and set up a reader etc
-//                InputStream is = con.getInputStream();
-//                InputStreamReader ir = new InputStreamReader(is);
-//                BufferedReader br = new BufferedReader(ir);
-//                //Read input
-//                String responseString;
-//                StringBuilder sb = new StringBuilder();
-//                while ((responseString = br.readLine()) != null) {
-//                    sb = sb.append(responseString);
-//                }
-//                JSONString = sb.toString();
-//            } catch (MalformedURLException e) {
-//                //TODO Deal with malformed URL
-//                e.printStackTrace();
-//            } catch (IOException e) {
-//                //TODO Deal with IO exception
-//                e.printStackTrace();
-//
-//            }
+            }
 
-            //TODO Do checking?
-            JSONString=testString;
-            return JSONString;
+            //Decode JSON string and form image URL
+            URL downloadedImage=decodeJSONForImage(JSONString);
+
+            //Download image
+            Bitmap theImage = downloadBitmap(downloadedImage);
+
+            return theImage;
         }
 
         @Override
-        protected void onPostExecute(String fetchedString){
-            //TODO Decode JSON and build url to fetch an image
+        protected void onPostExecute(Bitmap theImage) {
+            //Get reference to imageView
+            ImageView ivClosestCity = (ImageView) findViewById(R.id.ivClosestCity);
 
-            try{
-                Log.i("ABC123", "onPostExecute: "+fetchedString);
-                //Get the JSON object
-                JSONObject allData=new JSONObject(fetchedString);
-                //Get the photo object
-                JSONObject photos=allData.getJSONObject("photos");
-                //Get the photo array
-                JSONArray photoArray=photos.getJSONArray("photo");
-                //TODO Look through a few photos and choose one that is actually of the city?
-
-                //Get a photo object
-                JSONObject currentPhoto=photoArray.getJSONObject(0);
-                //Get required data
-                String farmID=currentPhoto.getString("farm");
-                String serverID=currentPhoto.getString("server");
-                String photoID=currentPhoto.getString("id");
-                String secret=currentPhoto.getString("secret");
-                //TODO Place this in string.xml or choose filesize dependant on device size?
-                String size="m";
-
-                // Build image URL
-                String imageString=String.format(getString(R.string.flickr_imageString),farmID,serverID,photoID,secret,size);
-                URL imageURL=new URL(imageString);
-
-                //TODO Download image and set on form, wait for android to moan about threads here?
-                //Get reference to imageView
-                ImageView ivClosestCity=(ImageView)findViewById(R.id.ivClosestCity);
-
-                //request download of the image
-                Bitmap getImage=downloadBitmap(imageURL);
-                //Check we actually got something
-                if(getImage!=null) {
-                    ivClosestCity.setImageBitmap(getImage);
-                }
-            } catch (JSONException e) {
-                //TODO Deal with gracefully
-                e.printStackTrace();
-            } catch (MalformedURLException e) {
-                //TODO Deal with this gracefully
-                e.printStackTrace();
+            //Check we actually got something
+            if (theImage != null) {
+                ivClosestCity.setImageBitmap(theImage);
             }
         }
     }
 
+    /**
+     * Turns JSON string into an image URL
+     * @param fetchedString JSON string
+     * @return image URL
+     */
+    private URL decodeJSONForImage(String fetchedString) {
+        URL imageURL = null;
+        try {
+            Log.i("ABC123", "onPostExecute: " + fetchedString);
+            //Get the JSON object
+            JSONObject allData = new JSONObject(fetchedString);
+            //Get the photo object
+            JSONObject photos = allData.getJSONObject("photos");
+            //Get the photo array
+            JSONArray photoArray = photos.getJSONArray("photo");
+            //TODO Look through a few photos and choose one that is actually of the city?
+
+            //Get a photo object
+            JSONObject currentPhoto = photoArray.getJSONObject(0);
+            //Get required data
+            String farmID = currentPhoto.getString("farm");
+            String serverID = currentPhoto.getString("server");
+            String photoID = currentPhoto.getString("id");
+            String secret = currentPhoto.getString("secret");
+            //TODO Place this in string.xml or choose filesize dependant on device size?
+            String size = "m";
+
+            // Build image URL
+            String imageString = String.format(getString(R.string.flickr_imageString), farmID, serverID, photoID, secret, size);
+            imageURL = new URL(imageString);
+
+        } catch (JSONException e) {
+            //TODO Deal with gracefully
+            e.printStackTrace();
+        } catch (MalformedURLException e) {
+            //TODO Deal with this gracefully
+            e.printStackTrace();
+        }
+
+        return imageURL;
+    }
     /**
      * Download an image from a given URL
      * @param imageURL
      * @return Bitmap of requested image
      */
     public Bitmap downloadBitmap(URL imageURL) {
-        Log.i("ABC123", "downloadBitmap: "+imageURL);
         //Hold downloaded image
         Bitmap output=null;
 
@@ -343,6 +352,7 @@ public class MainActivity extends AppCompatActivity {
             } else {
                 //TODO ???
                 Log.i("ABC123", "downloadBitmap: response code: "+response);
+                return null;
             }
         } catch (MalformedURLException e){
             //TODO Deal with malformed URL
@@ -353,8 +363,4 @@ public class MainActivity extends AppCompatActivity {
         }
         return output;
     }
-
-    /////////// Methods to find nearest city from random location ////////////
-    //TODO Move code over from MainActivity.java
-
 }
