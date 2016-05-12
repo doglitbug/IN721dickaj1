@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">PhotoMosaic</string>
+    <string name="btnTakePhoto">Take Photo</string>
+</resources>
