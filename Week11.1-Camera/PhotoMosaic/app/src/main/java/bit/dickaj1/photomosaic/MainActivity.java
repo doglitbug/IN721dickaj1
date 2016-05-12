@@ -3,6 +3,7 @@ package bit.dickaj1.photomosaic;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
 import android.net.Uri;
 import android.os.Environment;
 import android.provider.MediaStore;
@@ -21,6 +22,9 @@ import java.util.Date;
 public class MainActivity extends AppCompatActivity {
     //Used for debugging
     String TAG="ABC123";
+
+    //Used for call to camera and activity result
+    public static final int MY_CAMERA_CODE=1;
 
     //Record where we tell the camera to put the photo
     File imageFile;
@@ -82,13 +86,13 @@ public class MainActivity extends AppCompatActivity {
         cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, mPhotoUri);
 
         //Launch the intent, waiting for result
-        startActivityForResult(cameraIntent, 1);
+        startActivityForResult(cameraIntent, MY_CAMERA_CODE);
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         //Is this the return we are waiting for?
-        if (requestCode == 1) {
+        if (requestCode == MY_CAMERA_CODE) {
             //Did we get the data?
             if (resultCode == RESULT_OK) {
 
@@ -141,11 +145,26 @@ public class MainActivity extends AppCompatActivity {
      * @param input image to use for mosaic
      */
     private void setMosaic(Bitmap input){
-        //TODO Turn image into a mosaic
+
+        int width=input.getWidth();
+        int height=input.getHeight();
+        //Get a smaller version
+        //TODO CONSTANT HERE
+        Bitmap smaller=input.createScaledBitmap(input,width/2,height/2,false);
+
+        //Create canvas to plaint 4 images to
+        Bitmap output=Bitmap.createBitmap(width,height, Bitmap.Config.RGB_565);
+        Canvas mosaicCanvas=new Canvas(output);
+
+
+        mosaicCanvas.drawBitmap(smaller,0,0,null);
+        mosaicCanvas.drawBitmap(smaller,width/2,0,null);
+        mosaicCanvas.drawBitmap(smaller,0,height/2,null);
+        mosaicCanvas.drawBitmap(smaller,width/2,height/2,null);
 
         //Get reference
         ImageView ivMosaic=(ImageView)findViewById(R.id.ivMosaic);
         //Display it
-        ivMosaic.setImageBitmap(input);
+        ivMosaic.setImageBitmap(output);
     }
 }
