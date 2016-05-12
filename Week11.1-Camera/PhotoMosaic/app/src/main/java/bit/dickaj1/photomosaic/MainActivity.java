@@ -21,13 +21,17 @@ import java.util.Date;
 
 public class MainActivity extends AppCompatActivity {
     //Used for debugging
-    String TAG="ABC123";
+    String TAG = "ABC123";
 
     //Used for call to camera and activity result
-    public static final int MY_CAMERA_CODE=1;
+    public static final int MY_CAMERA_CODE = 1;
+
+    //How many photos across the mosaic
+    public static final int MOSAIC_SIZE = 2;
 
     //Record where we tell the camera to put the photo
     File imageFile;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,8 +40,8 @@ public class MainActivity extends AppCompatActivity {
         setUpButtons();
 
         //Restore imageFile if available
-        if (savedInstanceState!=null){
-            imageFile=(File)savedInstanceState.get("imageFile");
+        if (savedInstanceState != null) {
+            imageFile = (File) savedInstanceState.get("imageFile");
         }
     }
 
@@ -48,12 +52,13 @@ public class MainActivity extends AppCompatActivity {
         //Save imageFile
         savedInstanceData.putSerializable("imageFile", imageFile);
     }
+
     /**
      * Initializes button click handlers
      */
-    private void setUpButtons(){
+    private void setUpButtons() {
         //Get reference to button
-        Button btnTakePhoto=(Button)findViewById(R.id.btnTakePhoto);
+        Button btnTakePhoto = (Button) findViewById(R.id.btnTakePhoto);
         //Set handler
         btnTakePhoto.setOnClickListener(new btnTakePhotoHandler());
     }
@@ -61,7 +66,7 @@ public class MainActivity extends AppCompatActivity {
     /**
      * On click handler for btnTakePhoto
      */
-    private class btnTakePhotoHandler implements View.OnClickListener{
+    private class btnTakePhotoHandler implements View.OnClickListener {
 
         @Override
         public void onClick(View v) {
@@ -112,6 +117,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     //////////// Non form related stuff ////////////
+
     /**
      * Create a File object to write an image to
      */
@@ -142,28 +148,36 @@ public class MainActivity extends AppCompatActivity {
 
     /**
      * Takes an image and displays the mosaic
+     *
      * @param input image to use for mosaic
      */
-    private void setMosaic(Bitmap input){
+    private void setMosaic(Bitmap input) {
+        //Size of original image
+        //TODO Resize to device screen size if desired here
+        int width = input.getWidth();
+        int height = input.getHeight();
 
-        int width=input.getWidth();
-        int height=input.getHeight();
+        //Size of the smaller images
+        int mosaic_width = width / MOSAIC_SIZE;
+        int mosaic_height = height / MOSAIC_SIZE;
+
         //Get a smaller version
-        //TODO CONSTANT HERE
-        Bitmap smaller=input.createScaledBitmap(input,width/2,height/2,false);
 
-        //Create canvas to plaint 4 images to
-        Bitmap output=Bitmap.createBitmap(width,height, Bitmap.Config.RGB_565);
-        Canvas mosaicCanvas=new Canvas(output);
+        Bitmap smaller = input.createScaledBitmap(input, mosaic_width, mosaic_height, false);
 
+        //Create canvas to plant images to
+        Bitmap output = Bitmap.createBitmap(width, height, Bitmap.Config.RGB_565);
+        Canvas mosaicCanvas = new Canvas(output);
 
-        mosaicCanvas.drawBitmap(smaller,0,0,null);
-        mosaicCanvas.drawBitmap(smaller,width/2,0,null);
-        mosaicCanvas.drawBitmap(smaller,0,height/2,null);
-        mosaicCanvas.drawBitmap(smaller,width/2,height/2,null);
+        for (int y = 0; y < MOSAIC_SIZE; y++) {
+            for (int x = 0; x < MOSAIC_SIZE; x++) {
+                mosaicCanvas.drawBitmap(smaller, x * mosaic_width, y * mosaic_height, null);
+
+            }
+        }
 
         //Get reference
-        ImageView ivMosaic=(ImageView)findViewById(R.id.ivMosaic);
+        ImageView ivMosaic = (ImageView) findViewById(R.id.ivMosaic);
         //Display it
         ivMosaic.setImageBitmap(output);
     }
