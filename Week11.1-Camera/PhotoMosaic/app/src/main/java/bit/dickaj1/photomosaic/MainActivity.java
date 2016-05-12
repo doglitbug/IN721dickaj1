@@ -7,6 +7,7 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
@@ -15,6 +16,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class MainActivity extends AppCompatActivity {
+    String TAG="ABC123";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,7 +61,7 @@ public class MainActivity extends AppCompatActivity {
 
         //Attach Uri to the intent(tell camera where to store the photo taken
         cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT,mPhotoUri);
-
+        Log.i(TAG, "startCamera: file path: "+mPhotoFile.toString());
         //Launch the intent, waiting for result
         startActivityForResult(cameraIntent,1);
     }
@@ -90,7 +92,7 @@ public class MainActivity extends AppCompatActivity {
         String mPhotoFileName="IMG_"+timeStamp+".jpg";
 
         //Make complete File object(path and filename)
-        File photoFile=new File(imageFolder.getPath()+File.separator);
+        File photoFile=new File(imageFolder.getPath()+File.separator+mPhotoFileName);
 
         return photoFile;
     }
