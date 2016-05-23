@@ -1,20 +1,22 @@
 package bit.dickaj1.teleporterplus;
 
-import android.location.Location;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import com.google.android.gms.maps.model.LatLng;
 
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.LatLng;
 
 import java.util.Random;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements OnMapReadyCallback{
+    private GoogleMap mMap;
+    private LatLng location;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,21 +33,25 @@ public class MainActivity extends AppCompatActivity {
         btnTeleport.setOnClickListener(new btnTeleportHandler());
     }
 
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+        mMap=googleMap;
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(location));
+        Log.i("ABC123", "onMapReady: ");
+    }
+
     private class btnTeleportHandler implements View.OnClickListener{
         @Override
         public void onClick(View v) {
-            //TODO Get current GPS co-ords
-            LatLng testLocation = getCoords();
-            //TODO Create map object using Google Maps API
-
-            //TODO Show on screen
+            //Get current GPS co-ords
+            location = getCoords();
+            //Create map object using Google Maps API
+            SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
+                    .findFragmentById(R.id.map);
+            mapFragment.getMapAsync(MainActivity.this);
         }
     }
 
-
-    private void explodeMapFragment(LatLng location){
-ShowMapFragment smf = new ShowMapFragment()
-    }
     /**
      * Gets/generates a LatLng
      *
