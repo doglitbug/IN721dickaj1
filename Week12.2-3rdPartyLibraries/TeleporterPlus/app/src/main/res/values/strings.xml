@@ -2,4 +2,5 @@
     <string name="app_name">TeleporterPlus</string>
     <string name="btn_teleport">TELEPORT</string>
     <string name="google_API_Key" templateMergeStrategy="preserve" translatable="false">AIzaSyBMPtAar7nuIQdY0nzlXUdh1KIyu517DrQ</string>
+    <string name="google_app_id">instant-heading-130123</string>
 </resources>
