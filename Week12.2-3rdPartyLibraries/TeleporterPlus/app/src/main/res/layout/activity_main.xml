@@ -16,4 +16,10 @@
         android:id="@+id/btnTeleport"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/fragment_map"
+        android:orientation="horizontal"/>
 </RelativeLayout>
