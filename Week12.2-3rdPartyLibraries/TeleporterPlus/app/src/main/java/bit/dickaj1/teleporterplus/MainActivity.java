@@ -1,6 +1,10 @@
 package bit.dickaj1.teleporterplus;
 
 import android.location.Location;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -24,6 +28,7 @@ public class MainActivity extends AppCompatActivity {
     private void setupButtons(){
         Button btnTeleport = (Button)findViewById(R.id.btnTeleport);
         //Set onClick listener
+        btnTeleport.setOnClickListener(new btnTeleportHandler());
     }
 
     private class btnTeleportHandler implements View.OnClickListener{
@@ -37,6 +42,10 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+
+    private void explodeMapFragment(LatLng location){
+ShowMapFragment smf = new ShowMapFragment()
+    }
     /**
      * Gets/generates a LatLng
      *
