@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">TeleporterPlus</string>
+    <string name="btn_teleport">TELEPORT</string>
+    <string name="google_API_Key">AIzaSyBMPtAar7nuIQdY0nzlXUdh1KIyu517DrQ</string>
+</resources>
